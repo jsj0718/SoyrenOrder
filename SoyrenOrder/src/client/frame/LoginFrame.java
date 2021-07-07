@@ -137,7 +137,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, "로그인 성공");
 			
 			//마당 서적 창 띄움
-//			main = new MainFrame(this, id); 
+			main = new MainFrame(this, id); 
 			//로그인창 꺼둠
 			dispose();
 			

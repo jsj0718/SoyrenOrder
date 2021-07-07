@@ -128,8 +128,8 @@ public class CustomerDAO {
 	// 회원 정보 수정 (추가 예정)
 	
 	
-	// 월 고객별 구매 금액
-	public int monthCustBuy(String custID, String odate) {
+	// 월 고객별 구매 금액 (이번 달)
+	public int monthCustBuy(String custID) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -139,25 +139,26 @@ public class CustomerDAO {
 				+ "      WHERE C.CUSTID = O.CUSTID"
 				+ "      AND P.PRODID = O.PRODID"
 				+ "      AND C.CUSTID = ?"
-				+ "      AND O.ODATE LIKE ?"
-				+ "      GROUP BY rollup((O.ODATE, C.CUSTID))"
+				+ "      AND O.ODATE LIKE SUBSTR(SYSDATE, 1,6) || '%'"
+				+ "      GROUP BY ROLLUP((O.ODATE, C.CUSTID))"
 				+ "      ORDER BY O.ODATE DESC"
 				+ "      ) "
 				+ "WHERE ROWNUM <= 1";
-		
+		int result = 0;
 		try {			
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, custID);
-			pstmt.setString(2, odate);
 
 			rs = pstmt.executeQuery();
-			return rs.getInt(1);
+			while (rs.next()) {
+				result = rs.getInt(1);				
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			closeAll(null, pstmt, conn);
 		}
-		return -1;	// DB 오류
+		return result;
 	}
 }
