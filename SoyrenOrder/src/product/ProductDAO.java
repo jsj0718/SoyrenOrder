@@ -27,18 +27,18 @@ public class ProductDAO {
 	}
 	
 	// 베스트 상품 (3개)
-	public ArrayList<ProductVO> selectBestProduct() {
+	public ArrayList<Integer> selectBestProductID() {
 		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String SQL = "SELECT * "
-				+ "FROM (SELECT P.PRODID, SUM(O.COUNT)"
+				+ "FROM (SELECT P.PRODID"
 				+ "      FROM ORDERS O, PRODUCT P"
 				+ "      WHERE O.PRODID = P.PRODID"
 				+ "      GROUP BY P.PRODID"
 				+ "      ORDER BY SUM(O.COUNT) DESC) "
 				+ "WHERE ROWNUM <= 3";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ArrayList<ProductVO> plist = new ArrayList<>();
+		ArrayList<Integer> plist = new ArrayList<>();
 		
 		try {
 			conn = DBConnect.getInstance();
@@ -46,15 +46,7 @@ public class ProductDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				ProductVO pvo = new ProductVO();
-				pvo.setProdID(rs.getInt("PRODID"));
-				pvo.setPname(rs.getString("PNAME"));
-				pvo.setPrice(rs.getInt("PRICE"));
-				pvo.setInfo(rs.getString("INFO"));
-				pvo.setCategory(rs.getString("CATEGORY"));
-				pvo.setImgPath(rs.getString("IMGPATH"));
-				
-				plist.add(pvo);
+				plist.add(rs.getInt("PRODID"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,4 +56,38 @@ public class ProductDAO {
 		
 		return plist;
 	}
+	
+	// 상품 번호로 상품 전체 찾기
+	public ProductVO selectProduct(Integer prodID) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String SQL = "SELECT * FROM PRODUCT WHERE PRODID = ?";
+		ProductVO pvo = null;
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, prodID);
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				pvo = new ProductVO();
+				pvo.setProdID(rs.getInt("PRODID"));
+				pvo.setPname(rs.getString("PNAME"));
+				pvo.setPrice(rs.getInt("PRICE"));
+				pvo.setInfo(rs.getString("INFO"));
+				pvo.setCategory(rs.getString("CATEGORY"));
+				pvo.setImgPath(rs.getString("IMGPATH"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		
+		return pvo;
+	}
+	
 }

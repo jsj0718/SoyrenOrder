@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 import customer.CustomerDAO;
+import product.ProductDAO;
+import product.ProductVO;
 import salgrade.SalgradeDAO;
 
 public class MainFrame extends JFrame implements ActionListener {
@@ -42,6 +45,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	CustomerDAO cdao;
 	SalgradeDAO sdao;
+	ProductDAO pdao;
+	ArrayList<Integer> plist;
 	
 	public MainFrame(LoginFrame login, String id) {
 		this.login = login;
@@ -77,6 +82,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL1 = new JLabel();
 		bestL2 = new JLabel();
 		bestL3 = new JLabel();
+		
 		bestBt1 = new JButton();
 		bestBt2 = new JButton();
 		bestBt3 = new JButton();
