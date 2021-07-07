@@ -1,6 +1,8 @@
 package orders;
 
-public class OrdersVO {
+import java.io.Serializable;
+
+public class OrdersVO implements Serializable {
 	int orderID;
 	String custID;
 	int prodID;

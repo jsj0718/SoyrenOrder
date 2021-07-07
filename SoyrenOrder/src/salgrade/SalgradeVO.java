@@ -1,6 +1,8 @@
 package salgrade;
 
-public class SalgradeVO {
+import java.io.Serializable;
+
+public class SalgradeVO implements Serializable {
 	String grade;
 	int losal;
 	int hisal;
