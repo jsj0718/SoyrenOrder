@@ -1,74 +1,53 @@
 package client.frame;
 
-import java.awt.*;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
+import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
-import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import frame.OrderFrame_D;
 
 public class OrderFrame extends JFrame {
 
-	JFrame frame;
-	
-	String id;
 	MainFrame main;
+	String id;
 	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					OrderFrame window = new OrderFrame();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public OrderFrame(MainFrame main, String id) {
+		this.main = main;
+		this.id = id;
 
-	/**
-	 * Create the application.
-	 */
-	public OrderFrame() {
-		
-		initialize();		
-		
+		this.setTitle("주문창");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(100, 100, 857, 654);
+		this.setLayout(null); // absoulute	
+		initialize();
+		this.setVisible(true);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	public void initialize() {
-		frame = new JFrame();
-		frame.setTitle("\uC8FC\uBB38");
-		frame.setBounds(100, 100, 857, 654);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+	private void initialize() {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(107, 142, 35));
 		panel.setBounds(0, 0, 843, 617);
-		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -100,32 +79,29 @@ public class OrderFrame extends JFrame {
 		cappuccinoL.setBounds(175, 301, 206, 41);
 		coffeeTab.add(cappuccinoL);
 		
-//		Image americanoImgg = new ImageIcon("C:\\Users\\kjs64\\OneDrive\\\uC0AC\uC9C4\\Saved Pictures\\cloudc+02.png").getImage();
-		
 		JButton americanoImg = new JButton("");
-		americanoImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/americano.jpg")));
+		americanoImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/americano.jpg")));
 		americanoImg.setForeground(new Color(240, 255, 240));
 		americanoImg.setBounds(40, 33, 83, 60);
-
 		coffeeTab.add(americanoImg);
 		
 		JButton latteImg = new JButton("");
-		latteImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/latte.png")));
+		latteImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/latte.png")));
 		latteImg.setBounds(40, 116, 83, 60);
 		coffeeTab.add(latteImg);
 		
 		JButton mochaImg = new JButton("");
-		mochaImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/mocha.png")));
+		mochaImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/mocha.png")));
 		mochaImg.setBounds(40, 202, 83, 60);
 		coffeeTab.add(mochaImg);
 		
 		JButton cappuccinoImg = new JButton("");
-		cappuccinoImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/cappuccino.png")));
+		cappuccinoImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/cappuccino.png")));
 		cappuccinoImg.setBounds(40, 291, 83, 60);
 		coffeeTab.add(cappuccinoImg);
 		
 		JButton banillaImg = new JButton("");
-		banillaImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/banilla.png")));
+		banillaImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/banilla.png")));
 		banillaImg.setBounds(40, 382, 83, 60);
 		coffeeTab.add(banillaImg);
 		
@@ -164,12 +140,12 @@ public class OrderFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		mangoImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/mango.png")));
+		mangoImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/mango.png")));
 		mangoImg.setBounds(43, 22, 83, 60);
 		panel_1.add(mangoImg);
 		
 		JButton strawberryImg = new JButton("");
-		strawberryImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/strawberry.png")));
+		strawberryImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/strawberry.png")));
 		strawberryImg.setBounds(43, 99, 83, 60);
 		panel_1.add(strawberryImg);
 		
@@ -178,7 +154,7 @@ public class OrderFrame extends JFrame {
 		panel_1.add(strawberryL);
 		
 		JButton lemonImg = new JButton("");
-		lemonImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/lemon.png")));
+		lemonImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/lemon.png")));
 		lemonImg.setBounds(43, 179, 83, 60);
 		panel_1.add(lemonImg);
 		
@@ -187,7 +163,7 @@ public class OrderFrame extends JFrame {
 		panel_1.add(lemonL);
 		
 		JButton grapeImg = new JButton("");
-		grapeImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/grape.png")));
+		grapeImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/grape.png")));
 		grapeImg.setBounds(43, 259, 83, 60);
 		panel_1.add(grapeImg);
 		
@@ -196,7 +172,7 @@ public class OrderFrame extends JFrame {
 		panel_1.add(grapeL);
 		
 		JButton chocoImg = new JButton("");
-		chocoImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/choco.png")));
+		chocoImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/choco.png")));
 		chocoImg.setBounds(43, 341, 83, 60);
 		panel_1.add(chocoImg);
 		
@@ -205,7 +181,7 @@ public class OrderFrame extends JFrame {
 		panel_1.add(chocoL);
 		
 		JButton greenteaImg = new JButton("");
-		greenteaImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/greentea.png")));
+		greenteaImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/greentea.png")));
 		greenteaImg.setBounds(43, 421, 83, 60);
 		panel_1.add(greenteaImg);
 		
@@ -214,7 +190,7 @@ public class OrderFrame extends JFrame {
 		panel_1.add(greenteaL);
 		
 		JButton peachImg = new JButton("");
-		peachImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/peach.png")));
+		peachImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/peach.png")));
 		peachImg.setBounds(43, 501, 83, 60);
 		panel_1.add(peachImg);
 		
@@ -223,7 +199,7 @@ public class OrderFrame extends JFrame {
 		panel_1.add(peachL);
 		
 		JButton lemonteaImg = new JButton("");
-		lemonteaImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/frame/Img/lemonice.png")));
+		lemonteaImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/lemonice.png")));
 		lemonteaImg.setBounds(43, 581, 83, 60);
 		panel_1.add(lemonteaImg);
 		
@@ -241,54 +217,88 @@ public class OrderFrame extends JFrame {
 		tabbedPane_1.addTab("정보", null, infoTab, null);
 		infoTab.setLayout(null);
 		
-		JLabel menuImg = new JLabel("New label");
-		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\OneDrive\\\uC0AC\uC9C4\\Saved Pictures\\cloudc+05.png"));
-		menuImg.setBounds(96, 27, 127, 121);
-		infoTab.add(menuImg);
-		
-		JLabel menuNameL = new JLabel("\uBA54\uB274\uC774\uB984");
-		menuNameL.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel menuNameL = new JLabel("menu");
 		menuNameL.setBounds(26, 196, 274, 34);
+		menuNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuNameL);
 		
-		JLabel menuInfo = new JLabel("\uBA54\uB274\uC124\uBA85");
-		menuInfo.setHorizontalAlignment(SwingConstants.CENTER);
-		menuInfo.setBounds(26, 240, 274, 82);
-		infoTab.add(menuInfo);
+		JLabel menuInfoL = new JLabel("");
+		menuInfoL.setBounds(26, 240, 274, 82);
+		menuInfoL.setHorizontalAlignment(SwingConstants.CENTER);
+		infoTab.add(menuInfoL);
 		
 		JButton addBt = new JButton("\uB2F4\uAE30");
 		addBt.setBounds(159, 421, 91, 23);
 		infoTab.add(addBt);
 		
+		//라디오버튼
 		JRadioButton hotRadioBt = new JRadioButton("HOT");
-		hotRadioBt.setBackground(new Color(240, 255, 240));
+		JRadioButton iceRadioBt = new JRadioButton("ICE");
+		ButtonGroup groupBt = new ButtonGroup();
+		groupBt.add(hotRadioBt);
+		groupBt.add(iceRadioBt);
+		
 		hotRadioBt.setBounds(72, 337, 79, 23);
+		hotRadioBt.setBackground(new Color(240, 255, 240));
 		infoTab.add(hotRadioBt);
 		
-		JRadioButton rdbtnIce = new JRadioButton("ICE");
-		rdbtnIce.setBackground(new Color(240, 255, 240));
-		rdbtnIce.setBounds(202, 337, 79, 23);
-		infoTab.add(rdbtnIce);
+		iceRadioBt.setBounds(202, 337, 79, 23);
+		iceRadioBt.setBackground(new Color(240, 255, 240));
+		infoTab.add(iceRadioBt);
+		
 		
 		JSpinner spinner = new JSpinner();
 		spinner.setBounds(93, 422, 30, 22);
 		infoTab.add(spinner);
 		
+		JLabel menuImg = new JLabel("");
+		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\Downloads\\coffee.png"));
+		menuImg.setBounds(94, 38, 137, 127);
+		infoTab.add(menuImg);
+		
 		JPanel shopTab = new JPanel();
 		shopTab.setBackground(new Color(240, 255, 240));
 		tabbedPane_1.addTab("장바구니", null, shopTab, null);
+
+		JTable shopTable = new JTable();
+//		presentTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
+	
 		
-		JLabel lblNewLabel = new JLabel("\uC8FC \uBB38 \uD558 \uAE30");
-		lblNewLabel.setBounds(332, 37, 148, 40);
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 27));
-		panel.add(lblNewLabel);
+		String[] shopCol = {"메뉴명", "옵션", "수량", "가격"};
+		DefaultTableModel shopDTM = new DefaultTableModel(shopCol, 100);
+		shopTab.setLayout(null);
+		shopTable = new JTable(shopDTM);
+		JScrollPane presentScroll = new JScrollPane(shopTable);
+		presentScroll.setBounds(0, 0, 330, 380);
+		shopTab.add(presentScroll);
+		
+//		tabbedPane_1.add(shopTab);
+		
+		
+		
+		JButton cancelBt = new JButton("\uC8FC\uBB38\uCDE8\uC18C");
+		cancelBt.setBounds(55, 432, 91, 23);
+		shopTab.add(cancelBt);
+		
+		JButton orderBt = new JButton("\uC8FC\uBB38\uD558\uAE30");
+		orderBt.setBounds(178, 432, 91, 23);
+		shopTab.add(orderBt);
+		
+		JLabel orderL = new JLabel("\uC8FC \uBB38 \uD558 \uAE30");
+		orderL.setBounds(332, 37, 148, 40);
+		orderL.setFont(new Font("맑은 고딕", Font.BOLD, 27));
+		panel.add(orderL);
 		
 		
 		americanoImg.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("아메리카노");
-				
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/americano.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>진한 에스프레소에 정수물을 더하여<br>깔끔하고 강렬한 에스프레소를 <br>가장 부드럽게 즐길 수 있는 커피</html>");
+				hotRadioBt.setEnabled(true);
+				iceRadioBt.setEnabled(true);
 			}
 		});
 		
@@ -296,6 +306,11 @@ public class OrderFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("카페라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/latte.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>풍부하고 진한 농도의 에스프레소가<br> 우유와 만나 고소함을 즐길 수 있는 커피 </html>");
+				hotRadioBt.setEnabled(true);
+				iceRadioBt.setEnabled(true);
 			}
 		});
 		
@@ -303,6 +318,11 @@ public class OrderFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("카페모카");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/mocha.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>진한 초콜릿 모카 시럽과 풍부한 에스프레소를 <br>우유와 섞어 휘핑크림으로 마무리한 음료로<br> 진한 에스프레소와 초콜릿 맛이 어우러진 커피 </html>");
+				hotRadioBt.setEnabled(true);
+				iceRadioBt.setEnabled(true);
 			}
 		});
 		
@@ -310,6 +330,11 @@ public class OrderFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("카푸치노");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/cappuccino.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>풍부하고 진한 에스프레소에<br> 우유와 벨벳 같은 우유 거품이<br> 1:1 비율로 어우러져 마무리된 커피 </html>");
+				hotRadioBt.setEnabled(true);
+				iceRadioBt.setEnabled(true);
 			}
 		});
 		
@@ -317,10 +342,115 @@ public class OrderFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("바닐라라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/banilla.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>프리미엄 바닐라 빈 시럽이<br> 부드럽게 어우러진 카페 라떼 </html>");
+				hotRadioBt.setEnabled(true);
+				iceRadioBt.setEnabled(true);
 			}
 		});
 		
+		mangoImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("망고스무디");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/mango.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>망고 패션 후르츠 주스와 블랙 티가<br> 깔끔하게 어우러진 과일 블렌디드</html>");
+				hotRadioBt.setEnabled(false);
+				iceRadioBt.setSelected(true);
+			}
+		});
+		
+		strawberryImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("딸기스무디");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/strawberry.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>입 안 가득 풍부한 딸기 과육이 <br>무더운 여름을 짜릿하게 날려줄 딸기 블렌디드</html>");
+				
+				hotRadioBt.setEnabled(false);
+				iceRadioBt.setSelected(true);
+			}
+		});
+		
+		lemonImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("레몬에이드");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/lemon.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>레몬의 상큼함과 톡 쏘는 탄산의<br> 시원함을 함께 즐길 수 있는 음료 </html>");
+				hotRadioBt.setEnabled(false);
+				iceRadioBt.setSelected(true);
+				
+			}
+		});
+		
+		grapeImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("자몽에이드");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/grape.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>자몽의 쌉싸름한 맛과 상큼함을<br> 동시에 느낄 수 있으며,<br> 탄산의 청량함을 함께 맛볼 수 있는 음료</html>");
+				hotRadioBt.setEnabled(false);
+				iceRadioBt.setSelected(true);
+			}
+		});
+		
+		chocoImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("초코라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/choco.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>진한 모카시럽과 부드러운 우유,<br> 달콤한 휘핑크림의 삼박자가 조화를 이루는 음료 </html>");
+				hotRadioBt.setEnabled(true);
+				iceRadioBt.setEnabled(true);
+			}
+		});
+		
+		greenteaImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("녹차라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/greentea.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>깊고 진한 말차 본연의 맛과 향을 <br>시원하고 부드럽게 즐길 수 있는 라떼 </html>");
+				hotRadioBt.setEnabled(true);
+				iceRadioBt.setEnabled(true);
+			}
+		});
+		
+		peachImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("복숭아 아이스티");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/peach.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>홍차의 깊은 맛과 풍부한 복숭아 향이<br> 어우러진 달콤한 여름철 인기 음료 </html>");
+				hotRadioBt.setEnabled(false);
+				iceRadioBt.setSelected(true);
+				}
+		});
+		
+		lemonteaImg.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("레몬 아이스티");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/lemonice.png")));
+				infoTab.add(menuImg);
+				menuInfoL.setText("<html>입안 가득 상큼한 레몬향이 퍼지는<br> 새콤달콤한 맛의 아이스티 </html>");
+				hotRadioBt.setEnabled(false);
+				iceRadioBt.setSelected(true);
+				
+
+			}
+		});
+		
+		this.setContentPane(panel);
 	}
-	
-	
 }

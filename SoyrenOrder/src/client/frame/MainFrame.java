@@ -52,6 +52,17 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	public OrderFrame order;
 	
+	public MainFrame() {
+		
+		this.setTitle("Mainâ");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(450, 500, 416, 543);
+		this.setLayout(null); // absoulute
+		setComponent();
+		this.setVisible(true);
+
+	}
+	
 	public MainFrame(LoginFrame login, String id) {
 		this.login = login;
 		this.id = id;
@@ -205,7 +216,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			
 			order = null;
 			
-//			order = new OrderFrame(this, id);
+			order = new OrderFrame(this, id);
 			
 			dispose();
 			
@@ -223,7 +234,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	
 
-//	public static void main(String[] args) {
-//		new MainFrame();
-//	}
+	public static void main(String[] args) {
+		new MainFrame();
+	}
 }
