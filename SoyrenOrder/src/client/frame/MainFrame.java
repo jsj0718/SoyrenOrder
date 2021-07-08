@@ -130,8 +130,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		gradeF.setColumns(10);
 		totalPriceF.setColumns(10);
 
-//			frame.getContentPane().setBackground(new Color(224, 255, 255));
-//			frame.setEnabled(false);
+//		frame.getContentPane().setBackground(new Color(224, 255, 255));
+//		frame.setEnabled(false);
 
 		infoPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
