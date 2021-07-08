@@ -270,7 +270,7 @@ public class OrderFrame_D {
 		infoTab.add(spinner);
 		
 		JLabel menuImg = new JLabel("");
-		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\Downloads\\coffee.png"));
+		menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/coffee.png")));
 		menuImg.setBounds(94, 38, 137, 127);
 		infoTab.add(menuImg);
 		
@@ -279,7 +279,6 @@ public class OrderFrame_D {
 		tabbedPane_1.addTab("장바구니", null, shopTab, null);
 
 		JTable shopTable = new JTable();
-//		presentTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
 	
 		
 		String[] shopCol = {"메뉴명", "옵션", "수량", "가격"};
@@ -290,7 +289,8 @@ public class OrderFrame_D {
 		presentScroll.setBounds(0, 0, 330, 380);
 		shopTab.add(presentScroll);
 		
-//		tabbedPane_1.add(shopTab);
+		
+		
 		
 		
 		
