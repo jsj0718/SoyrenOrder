@@ -1,5 +1,6 @@
 package customer;
 
+<<<<<<< HEAD
 import java.io.Serializable;
 
 public class CustomerVO implements Serializable {
@@ -32,6 +33,4 @@ public class CustomerVO implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	
 }
