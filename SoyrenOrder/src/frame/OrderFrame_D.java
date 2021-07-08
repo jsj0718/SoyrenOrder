@@ -277,5 +277,45 @@ public class OrderFrame_D {
 		lblNewLabel.setBounds(332, 37, 148, 40);
 		lblNewLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 27));
 		panel.add(lblNewLabel);
+		
+		
+		americanoImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("¾Æ¸Þ¸®Ä«³ë");
+				
+			}
+		});
+		
+		latteImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("Ä«Æä¶ó¶¼");
+			}
+		});
+		
+		mochaImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("Ä«Æä¸ðÄ«");
+			}
+		});
+		
+		cappuccinoImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("Ä«ÇªÄ¡³ë");
+			}
+		});
+		
+		banillaImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("¹Ù´Ò¶ó¶ó¶¼");
+			}
+		});
+		
 	}
+	
+	
 }
