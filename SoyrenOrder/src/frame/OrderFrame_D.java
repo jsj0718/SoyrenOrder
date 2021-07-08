@@ -101,7 +101,6 @@ public class OrderFrame_D {
 		americanoImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/Img/americano.jpg")));
 		americanoImg.setForeground(new Color(240, 255, 240));
 		americanoImg.setBounds(40, 33, 83, 60);
-
 		coffeeTab.add(americanoImg);
 		
 		JButton latteImg = new JButton("");
@@ -236,19 +235,14 @@ public class OrderFrame_D {
 		tabbedPane_1.addTab("정보", null, infoTab, null);
 		infoTab.setLayout(null);
 		
-		JLabel menuImg = new JLabel("New label");
-		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\OneDrive\\\uC0AC\uC9C4\\Saved Pictures\\cloudc+05.png"));
-		menuImg.setBounds(96, 27, 127, 121);
-		infoTab.add(menuImg);
-		
 		JLabel menuNameL = new JLabel("\uBA54\uB274\uC774\uB984");
-		menuNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		menuNameL.setBounds(26, 196, 274, 34);
+		menuNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuNameL);
 		
 		JLabel menuInfo = new JLabel("\uBA54\uB274\uC124\uBA85");
-		menuInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		menuInfo.setBounds(26, 240, 274, 82);
+		menuInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuInfo);
 		
 		JButton addBt = new JButton("\uB2F4\uAE30");
@@ -256,18 +250,22 @@ public class OrderFrame_D {
 		infoTab.add(addBt);
 		
 		JRadioButton hotRadioBt = new JRadioButton("HOT");
-		hotRadioBt.setBackground(new Color(240, 255, 240));
 		hotRadioBt.setBounds(72, 337, 79, 23);
+		hotRadioBt.setBackground(new Color(240, 255, 240));
 		infoTab.add(hotRadioBt);
 		
 		JRadioButton rdbtnIce = new JRadioButton("ICE");
-		rdbtnIce.setBackground(new Color(240, 255, 240));
 		rdbtnIce.setBounds(202, 337, 79, 23);
+		rdbtnIce.setBackground(new Color(240, 255, 240));
 		infoTab.add(rdbtnIce);
 		
 		JSpinner spinner = new JSpinner();
 		spinner.setBounds(93, 422, 30, 22);
 		infoTab.add(spinner);
+		
+		JLabel menuImg = new JLabel("");
+		menuImg.setBounds(94, 38, 137, 127);
+		infoTab.add(menuImg);
 		
 		JPanel shopTab = new JPanel();
 		shopTab.setBackground(new Color(240, 255, 240));
@@ -283,6 +281,8 @@ public class OrderFrame_D {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("아메리카노");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/americano.png")));
+				infoTab.add(menuImg);
 				
 			}
 		});
@@ -291,6 +291,8 @@ public class OrderFrame_D {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("카페라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/latte.png")));
+				infoTab.add(menuImg);
 			}
 		});
 		
@@ -298,6 +300,8 @@ public class OrderFrame_D {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("카페모카");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/mocha.png")));
+				infoTab.add(menuImg);
 			}
 		});
 		
@@ -305,6 +309,8 @@ public class OrderFrame_D {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("카푸치노");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/cappuccino.png")));
+				infoTab.add(menuImg);
 			}
 		});
 		
@@ -312,10 +318,82 @@ public class OrderFrame_D {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuNameL.setText("바닐라라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/banilla.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		mangoImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("망고스무디");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/mango.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		strawberryImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("딸기스무디");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/strawberry.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		lemonImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("레몬에이드");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/lemon.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		grapeImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("자몽에이드");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/grape.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		chocoImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("초코라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/choco.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		greenteaImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("녹차라떼");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/greentea.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		peachImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("복숭아 아이스티");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/peach.png")));
+				infoTab.add(menuImg);
+			}
+		});
+		
+		lemonteaImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuNameL.setText("레몬 아이스티");
+				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/lemonice.png")));
+				infoTab.add(menuImg);
 			}
 		});
 		
 	}
-	
-	
 }
