@@ -288,7 +288,7 @@ public class OrderFrame_D {
 		JScrollPane presentScroll = new JScrollPane(shopTable);
 		presentScroll.setBounds(0, 0, 330, 380);
 		shopTab.add(presentScroll);
-		
+		//
 		
 		
 		
