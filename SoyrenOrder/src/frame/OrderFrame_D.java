@@ -235,7 +235,7 @@ public class OrderFrame_D {
 		tabbedPane_1.addTab("정보", null, infoTab, null);
 		infoTab.setLayout(null);
 		
-		JLabel menuNameL = new JLabel("\uBA54\uB274\uC774\uB984");
+		JLabel menuNameL = new JLabel("menu");
 		menuNameL.setBounds(26, 196, 274, 34);
 		menuNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuNameL);
@@ -270,6 +270,7 @@ public class OrderFrame_D {
 		infoTab.add(spinner);
 		
 		JLabel menuImg = new JLabel("");
+		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\Downloads\\coffee.png"));
 		menuImg.setBounds(94, 38, 137, 127);
 		infoTab.add(menuImg);
 		
@@ -281,10 +282,10 @@ public class OrderFrame_D {
 //		presentTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
 	
 		
-		String[] presentCol = {"메뉴명", "옵션", "수량", "가격"};
-		DefaultTableModel presentDTM = new DefaultTableModel(presentCol, 100);
+		String[] shopCol = {"메뉴명", "옵션", "수량", "가격"};
+		DefaultTableModel shopDTM = new DefaultTableModel(shopCol, 100);
 		shopTab.setLayout(null);
-		shopTable = new JTable(presentDTM);
+		shopTable = new JTable(shopDTM);
 		JScrollPane presentScroll = new JScrollPane(shopTable);
 		presentScroll.setBounds(0, 0, 330, 380);
 		shopTab.add(presentScroll);
