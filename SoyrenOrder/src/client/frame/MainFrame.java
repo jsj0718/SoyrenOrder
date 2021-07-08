@@ -2,10 +2,12 @@ package client.frame;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +48,9 @@ public class MainFrame extends JFrame implements ActionListener {
 	CustomerDAO cdao;
 	SalgradeDAO sdao;
 	ProductDAO pdao;
-	ArrayList<Integer> plist;
+	ArrayList<ProductVO> plist;
+	
+	public OrderFrame order;
 	
 	public MainFrame(LoginFrame login, String id) {
 		this.login = login;
@@ -62,7 +66,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	public void setComponent() {
-
+		
+		
 		totalPanel = new JPanel();
 		totalPanel.setLayout(null);
 
@@ -83,14 +88,18 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL2 = new JLabel();
 		bestL3 = new JLabel();
 		
-		bestBt1 = new JButton();
-		bestBt2 = new JButton();
-		bestBt3 = new JButton();
-
-		orderBt = new JButton();
-
 		cdao = new CustomerDAO();
 		sdao = new SalgradeDAO();
+		pdao = new ProductDAO();
+		
+		plist = pdao.selectBestProduct();
+		
+		bestBt1 = new JButton(getImgIcon(plist.get(0).getImgPath()));
+		bestBt2 = new JButton(getImgIcon(plist.get(1).getImgPath()));
+		bestBt3 = new JButton(getImgIcon(plist.get(2).getImgPath()));
+
+		orderBt = new JButton();
+		
 		
 		logOutBt.setText("로그아웃");
 		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
@@ -99,9 +108,9 @@ public class MainFrame extends JFrame implements ActionListener {
 		totalPriceL.setText("TotalPrice");
 		totalPriceF.setText(cdao.monthCustBuy(id) + "원");
 		bestBeverageL.setText("BEST BERVERAGE");
-		bestL1.setText("음료1");
-		bestL2.setText("음료2");
-		bestL3.setText("음료3");
+		bestL1.setText(plist.get(0).getPname());
+		bestL2.setText(plist.get(1).getPname());
+		bestL3.setText(plist.get(2).getPname());
 		orderBt.setText("Order Now!");
 
 		// info panel
@@ -193,9 +202,26 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		}
 		if (orderBt == e.getSource()) {
-			JOptionPane.showConfirmDialog(null, "아직 준비중~", "죄송", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+			
+			order = null;
+			
+//			order = new OrderFrame(this, id);
+			
+			dispose();
+			
 		}
 	}
+	
+	// 이미지 아이콘 만드는 메소드
+	public ImageIcon getImgIcon(String imgPath) {
+		Image selectedImg = new ImageIcon(imgPath).getImage();
+		Image scaledImg = selectedImg.getScaledInstance(171, 165, Image.SCALE_DEFAULT);
+		ImageIcon scaledImgIcon = new ImageIcon(scaledImg);
+		
+		return scaledImgIcon;
+	}
+	
+	
 
 //	public static void main(String[] args) {
 //		new MainFrame();

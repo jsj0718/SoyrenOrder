@@ -1,6 +1,5 @@
 package customer;
 
-<<<<<<< HEAD
 import java.io.Serializable;
 
 public class CustomerVO implements Serializable {
