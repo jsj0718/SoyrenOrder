@@ -105,9 +105,9 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		plist = pdao.selectBestProduct();
 		
-		bestBt1 = new JButton(getImgIcon(plist.get(0).getImgPath()));
-		bestBt2 = new JButton(getImgIcon(plist.get(1).getImgPath()));
-		bestBt3 = new JButton(getImgIcon(plist.get(2).getImgPath()));
+		bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
+		bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
+		bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
 
 		orderBt = new JButton();
 		
@@ -202,6 +202,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void eventList() {
 		logOutBt.addActionListener(this);
 		orderBt.addActionListener(this);
+		bestBt1.addActionListener(this);
 	}
 
 	@Override
@@ -212,7 +213,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			dispose();
 
 		}
-		if (orderBt == e.getSource()) {
+		else if (orderBt == e.getSource()) {
 			
 			order = null;
 			
@@ -220,6 +221,11 @@ public class MainFrame extends JFrame implements ActionListener {
 			
 			dispose();
 			
+		}
+		// OrderFrame의 mouseListener와 연결 가능한지 알아보기
+		else if (bestBt1 == e.getSource()) {
+			order = null;
+			order = new OrderFrame(this, id);
 		}
 	}
 	
@@ -232,6 +238,14 @@ public class MainFrame extends JFrame implements ActionListener {
 		return scaledImgIcon;
 	}
 	
+	// 이미지 크기 조절 메소드
+	public ImageIcon imageSetSize(String imgPath, int i, int j) {
+		ImageIcon selectedImg = new ImageIcon("src/" + imgPath);
+		Image ximg = selectedImg.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
 	
 
 	public static void main(String[] args) {
