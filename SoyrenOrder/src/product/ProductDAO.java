@@ -55,7 +55,7 @@ public class ProductDAO {
 				pvo.setInfo(rs.getString("INFO"));
 				pvo.setCategory(rs.getString("CATEGORY"));
 				pvo.setImgPath(rs.getString("IMGPATH"));
-				
+				pvo.setPoption(rs.getString("POPTION"));
 				plist.add(pvo);
 			}
 		} catch (SQLException e) {
@@ -90,6 +90,7 @@ public class ProductDAO {
 				pvo.setInfo(rs.getString("INFO"));
 				pvo.setCategory(rs.getString("CATEGORY"));
 				pvo.setImgPath(rs.getString("IMGPATH"));
+				pvo.setPoption(rs.getString("POPTION"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -203,6 +203,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		logOutBt.addActionListener(this);
 		orderBt.addActionListener(this);
 		bestBt1.addActionListener(this);
+		bestBt2.addActionListener(this);
+		bestBt3.addActionListener(this);
 	}
 
 	@Override
@@ -222,11 +224,23 @@ public class MainFrame extends JFrame implements ActionListener {
 			dispose();
 			
 		}
-		// OrderFrame의 mouseListener와 연결 가능한지 알아보기
+		// 베스트 상품 클릭 시 바로 주문창 이동
 		else if (bestBt1 == e.getSource()) {
 			order = null;
-			order = new OrderFrame(this, id);
+			order = new OrderFrame(this, id, bestL1.getText());
+			
 		}
+		else if (bestBt2 == e.getSource()) {
+			order = null;
+			order = new OrderFrame(this, id, bestL2.getText());
+			
+		}
+		else if (bestBt3 == e.getSource()) {
+			order = null;
+			order = new OrderFrame(this, id, bestL3.getText());
+			
+		}
+		
 	}
 	
 	// 이미지 아이콘 만드는 메소드

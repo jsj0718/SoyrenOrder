@@ -43,11 +43,14 @@ public class OrderFrame extends JFrame {
 	JRadioButton hotRadioBt;
 	JRadioButton iceRadioBt;
 	
+	JButton americanoImg;
+	
 	ProductDAO pdao;
 	
 	String id;
 	MainFrame main;
-
+	String pname;
+	
 	public OrderFrame(MainFrame main, String id) {
 		this.main = main;
 		this.id = id;
@@ -61,6 +64,29 @@ public class OrderFrame extends JFrame {
 		
 	}
 
+	public OrderFrame(MainFrame main, String id, String pname) {
+		this.main = main;
+		this.id = id;
+		this.pname = pname;
+		
+		pdao = new ProductDAO();
+		ProductVO pvo = pdao.selectProduct(pname);
+		
+		this.setTitle("주문창");
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setBounds(100, 100, 857, 654);
+		this.setLayout(null); // absoulute
+		initialize();		
+		
+		if (pvo.getPoption().equals("T")) {
+			getProductInfoT(pname);			
+		} else if (pvo.getPoption().equals("O")){
+			getProductInfoO(pname);
+		}
+		
+		this.setVisible(true);
+		
+	}
 
 	private void initialize() {
 		
@@ -101,7 +127,7 @@ public class OrderFrame extends JFrame {
 		coffeeTab.add(cappuccinoL);
 		
 		// 커피 탭 이미지
-		JButton americanoImg = new JButton("");
+		americanoImg = new JButton("");
 		americanoImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/image/img/americano.jpg")));
 		americanoImg.setForeground(new Color(240, 255, 240));
 		americanoImg.setBounds(40, 33, 83, 60);
