@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -16,6 +17,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import client.program.ClientHandler;
+import message.BookMessage;
+import message.OrdersMessage;
 import orders.OrdersVO;
 
 
@@ -125,29 +129,54 @@ public class ServerMainRR extends JFrame implements ActionListener, MouseListene
 		eventList();
 
 	}
+	//
+	public void initTableRequest() {
+		bookSelectAll();
+		orderSelectAll();
+
+	}
+
+	public void bookSelectAll() {
+		BookMessage bmsg = new BookMessage();
+		bmsg.setState(1);
+
+		try {
+			ClientHandler.oos.writeObject(bmsg);
+			ClientHandler.oos.flush();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	
 	public void eventList() {
 		completeBt.addActionListener(this);
 		settlementBt.addActionListener(this);
 	}
-	//세부 내역에 들어갈 항목.
-//	public void addRowOrder(ArrayList<DetailOrdersVO> dlist) {
-//		String[] DetailOrdersCol = new String[3];
-//		for(DetailOrdersVO dvo : dlist) {
-//			DetailOrdersCol[0]= String.valueOf(dvo.getOrderID());
-//			DetailOrdersCol[1]= String.valueOf(dvo.getProdID());
-//			DetailOrdersCol[2]= String.valueOf(dvo.getCount());
-//		}
-//	}
+//	세부 내역에 들어갈 항목. //DetailOrders테이블을 만들어야 함
+	public void addRowOrder(ArrayList<DetailOrdersVO> dlist) {
+		String[] DetailOrdersCol = new String[3];
+		for(DetailOrdersVO dvo : dlist) {
+			DetailOrdersCol[0]= String.valueOf(dvo.getOrderID());
+			DetailOrdersCol[1]= String.valueOf(dvo.getProdID());
+			DetailOrdersCol[2]= String.valueOf(dvo.getCount());
+			
+			presentDTM.addColumn(DetailOrdersCol);
+		}
+	}
 	
-//	//총주문내역에 들어갈 항목
-//	
-//	public void addRowOrder(ArrayList<OrdersVO> olist) {
-//		String[] OrdersCol = new String[2];
-//		for(OrdersVO ovo : olist) {
-//			OrdersCol[0] = String.valueOf(ovo.getOrderID());
-//			OrdersCol[1] = String.valueOf(ovo.getCustID());
-//		}
-//	}
+	//총주문내역에 들어갈 항목
+	
+	public void addRowOrder1 (ArrayList<OrdersVO> olist) {
+		String[] OrdersCol = new String[2];
+		for(OrdersVO ovo : olist) {
+			OrdersCol[0] = String.valueOf(ovo.getOrderID());
+			OrdersCol[1] = String.valueOf(ovo.getCustID());
+			
+			totalDTM.addRow(OrdersCol);
+		}
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -168,25 +197,36 @@ public class ServerMainRR extends JFrame implements ActionListener, MouseListene
 
 
 @Override
-public void mouseClicked(MouseEvent e) {
+public void mouseClicked(MouseEvent e) {	//테이블클릭 테이블 이동.
 	if(totalTable == e.getSource()) {
 		//totaltable의 행 선택시 msg에 orderId와 custId를 전송.
-		OrderMessage omsg = new OrderMessage();
-		OrdersVO ovo = new OrdersVO();
-		totalRow = totalTable.getSelectedRow();
+//		OrdersMessage omsg = new OrdersMessage();
+//		OrdersVO ovo = new OrdersVO();
+//		totalRow = totalTable.getSelectedRow();
+//		
+//		ovo.setOrderID();
+//		ovo.setCustID(Integer.parseInt(custId));
+//		
+//		//메시지로 보내기
+//		omsg.setState(1);
+//		omsg.setOvo(ovo);
+//		//전송된 정보의 CustId를 이용하여 OrderMessage의 다른 값들을 끌어옴
+//		DetailOrderVO dvo = new DetailOrderVO();
+//		dvo.getOrderId(Integer.parseInt(orderId.getText()));
+//		dvo.getProdId(Integer.parseInt(prodId.getText()));
+//		dvo.getCount(Integer.parseInt(count.getText()));
+//		트라이캐치 끌어오기.
 		
-		ovo.setOrderId(Integer.parseInt(orderId.getText()));
-		ovo.setCustID(Integer.parseInt(custId.getText()));
+	totalRow = totalTable.getSelectedRow();
+	String orderId = totalTable.getValueAt(totalRow, 0).toString();
+	String custId = totalTable.getValueAt(totalRow, 1).toString();
+	
+	presentRow = presentTable.getSelectedRow();
+	
+	
+	
 		
-		//메시지로 보내기
-		omsg.setState(1);
-		omsg.set(ovo);
-		//전송된 정보의 CustId를 이용하여 OrderMessage의 다른 값들을 끌어옴
-		DetailOrderVO dvo = new DetailOrderVO();
-		dvo.getOrderId(Integer.parseInt(orderId.getText()));
-		dvo.getProdId(Integer.parseInt(prodId.getText()));
-		dvo.getCount(Integer.parseInt(count.getText()));
-		//트라이캐치 끌어오기.
+		//연습
 		
 		
 //		presentTable.addRowSelectionInterval(0, 1);		
