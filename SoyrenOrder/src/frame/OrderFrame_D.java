@@ -6,27 +6,21 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.*;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
-import javax.swing.ScrollPaneConstants;
+
 import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import javax.swing.UIManager;
+
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class OrderFrame_D {
+public class OrderFrame_D extends JFrame{
 
 	private JFrame frame;
+	JTable shopTable = new JTable();
+	DefaultTableModel shopDTM = new DefaultTableModel();
+	JPanel shopTab = new JPanel();
+	
 
 	/**
 	 * Launch the application.
@@ -265,40 +259,95 @@ public class OrderFrame_D {
 		infoTab.add(iceRadioBt);
 		
 		
-		JSpinner spinner = new JSpinner();
+		SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
+		JSpinner spinner = new JSpinner(spinnerModel);
 		spinner.setBounds(93, 422, 30, 22);
 		infoTab.add(spinner);
 		
 		JLabel menuImg = new JLabel("");
-		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\Downloads\\coffee.png"));
+		menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/coffee.png")));
 		menuImg.setBounds(94, 38, 137, 127);
 		infoTab.add(menuImg);
 		
-		JPanel shopTab = new JPanel();
+		
 		shopTab.setBackground(new Color(240, 255, 240));
 		tabbedPane_1.addTab("장바구니", null, shopTab, null);
 
-		JTable shopTable = new JTable();
-//		presentTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
+		
 	
-		
+		//장바구니 탭에 테이블 설정
 		String[] shopCol = {"메뉴명", "옵션", "수량", "가격"};
-		DefaultTableModel shopDTM = new DefaultTableModel(shopCol, 100);
-		shopTab.setLayout(null);
+		shopDTM = new DefaultTableModel(shopCol, 0);
 		shopTable = new JTable(shopDTM);
-		JScrollPane presentScroll = new JScrollPane(shopTable);
-		presentScroll.setBounds(0, 0, 330, 380);
-		shopTab.add(presentScroll);
 		
-//		tabbedPane_1.add(shopTab);
+		//추가될때마다 사이즈 1씩 증가
+		shopTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		shopTable.setAutoCreateRowSorter(true);
+		shopTable.setCellSelectionEnabled(rootPaneCheckingEnabled);
+		shopTab.setLayout(null);
 		
+		JScrollPane shopScroll = new JScrollPane(shopTable);
+		shopScroll.setViewportView(shopTable);
+		shopTab.add(shopScroll);
+		shopScroll.setBounds(0, 0, 330, 380);
+		
+		//담기버튼 누르면 장바구니 탭의 테이블에 누적시키기
+		addBt.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int count = Integer.parseInt(spinner.getValue().toString());
+					
+					//메뉴 선택을 안했을 경우
+					if(menuNameL.getText().equals("menu")) {
+						JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+						
+						//옵션 선택을 안했을 경우	
+					}else if(!hotRadioBt.isSelected() && !iceRadioBt.isSelected()){
+						JOptionPane.showConfirmDialog(null, "HOT/ICE를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+						
+						//수량을 0개 이하로 했을 경우	
+					}else if(count <= 0) {
+//						count = Integer.parseInt(spinner.getValue().toString());
+						System.out.println(count);
+						JOptionPane.showConfirmDialog(null, "1잔 이상 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+						
+					}else {
+						String option = "";
+						if(hotRadioBt.isSelected()) {
+							option = "HOT";
+						}else {
+							option = "ICE";
+						}
+						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
+						shopDTM.addRow(new String[] {menuNameL.getText(),option,spinner.getValue().toString(),"4000"});
+						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
+					}
+				}
+			
+			
+		});
 		
 		
 		JButton cancelBt = new JButton("\uC8FC\uBB38\uCDE8\uC18C");
+		//주문취소 리스너
+		cancelBt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		cancelBt.setBounds(55, 432, 91, 23);
 		shopTab.add(cancelBt);
 		
 		JButton orderBt = new JButton("\uC8FC\uBB38\uD558\uAE30");
+		//주문하기 리스너
+		orderBt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+		});
 		orderBt.setBounds(178, 432, 91, 23);
 		shopTab.add(orderBt);
 		
