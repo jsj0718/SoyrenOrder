@@ -3,9 +3,9 @@ package salgrade;
 import java.io.Serializable;
 
 public class SalgradeVO implements Serializable {
-	String grade;
-	int losal;
-	int hisal;
+	private String grade;
+	private int losal;
+	private int hisal;
 	
 	public String getGrade() {
 		return grade;

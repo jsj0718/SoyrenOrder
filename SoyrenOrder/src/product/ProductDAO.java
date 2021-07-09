@@ -27,18 +27,20 @@ public class ProductDAO {
 	}
 	
 	// 베스트 상품 (3개)
-	public ArrayList<Integer> selectBestProductID() {
+	public ArrayList<ProductVO> selectBestProduct() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String SQL = "SELECT * "
-				+ "FROM (SELECT P.PRODID"
-				+ "      FROM ORDERS O, PRODUCT P"
-				+ "      WHERE O.PRODID = P.PRODID"
-				+ "      GROUP BY P.PRODID"
-				+ "      ORDER BY SUM(O.COUNT) DESC) "
-				+ "WHERE ROWNUM <= 3";
-		ArrayList<Integer> plist = new ArrayList<>();
+				+ "FROM PRODUCT "
+				+ "WHERE PRODID IN (SELECT * "
+				+ "                 FROM (SELECT P.PRODID"
+				+ "                       FROM ORDERS O, PRODUCT P"
+				+ "                       WHERE O.PRODID = P.PRODID"
+				+ "                       GROUP BY P.PRODID"
+				+ "                       ORDER BY SUM(O.COUNT) DESC)"
+				+ "                 WHERE ROWNUM <= 3)";
+		ArrayList<ProductVO> plist = new ArrayList<>();
 		
 		try {
 			conn = DBConnect.getInstance();
@@ -46,7 +48,15 @@ public class ProductDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				plist.add(rs.getInt("PRODID"));
+				ProductVO pvo = new ProductVO();
+				pvo.setProdID(rs.getInt("PRODID"));
+				pvo.setPname(rs.getString("PNAME"));
+				pvo.setPrice(rs.getInt("PRICE"));
+				pvo.setInfo(rs.getString("INFO"));
+				pvo.setCategory(rs.getString("CATEGORY"));
+				pvo.setImgPath(rs.getString("IMGPATH"));
+				
+				plist.add(pvo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,23 +67,23 @@ public class ProductDAO {
 		return plist;
 	}
 	
-	// 상품 번호로 상품 전체 찾기
-	public ProductVO selectProduct(Integer prodID) {
+	// 상품 이름으로 상품 정보 가져오기
+	public ProductVO selectProduct(String pname) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String SQL = "SELECT * FROM PRODUCT WHERE PNAME = ?";
 		
-		String SQL = "SELECT * FROM PRODUCT WHERE PRODID = ?";
 		ProductVO pvo = null;
-		
 		try {
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, prodID);
-			
+			pstmt.setString(1, pname);
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 				pvo = new ProductVO();
+				
 				pvo.setProdID(rs.getInt("PRODID"));
 				pvo.setPname(rs.getString("PNAME"));
 				pvo.setPrice(rs.getInt("PRICE"));
@@ -89,5 +99,6 @@ public class ProductDAO {
 		
 		return pvo;
 	}
+	
 	
 }

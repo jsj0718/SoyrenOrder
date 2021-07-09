@@ -3,12 +3,12 @@ package product;
 import java.io.Serializable;
 
 public class ProductVO implements Serializable {
-	int prodID;
-	String pname;
-	int price;
-	String info;
-	String category;
-	String imgPath;
+	private int prodID;
+	private String pname;
+	private int price;
+	private String info;
+	private String category;
+	private String imgPath;
 	
 	public int getProdID() {
 		return prodID;

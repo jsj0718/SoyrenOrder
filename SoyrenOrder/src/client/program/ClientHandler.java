@@ -53,10 +53,11 @@ public class ClientHandler extends Thread {
 				}
 //				else if(obj instanceof ProductMessage) {
 //					inPMsg = (ProductMessage)obj;
-//					if(inPMsg.getState() == 1) { // 책 리스트 조회
-//						login.bookStore.initTableResponse(inPMsg);
+//					if(inPMsg.getState() == 1) { // 베스트 메뉴 조회
+//						login.main.initTableResponse(inPMsg);
 //					}
-//				}else if(obj instanceof OrdersMessage) {
+//				}
+//				else if(obj instanceof OrdersMessage) {
 //					inOMsg = (OrdersMessage)obj;
 //					if(inOMsg.getState() == 1) { //주문 리스트 조회
 //						login.bookStore.initTableResponse(inOMsg);

@@ -1,8 +1,7 @@
-package frame;
+package client.frame;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -22,61 +20,45 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import frame.OrderFrame_D;
 import product.ProductDAO;
 import product.ProductVO;
 
-public class OrderFrame_D extends JFrame{
+public class OrderFrame extends JFrame {
 
-	private JFrame frame;
-	JTable shopTable = new JTable();
-	DefaultTableModel shopDTM = new DefaultTableModel();
-	JPanel shopTab = new JPanel();
+	JPanel infoTab;
+	JLabel menuNameL;
+	JLabel menuImg;
+	JLabel menuInfoL;
+	JRadioButton hotRadioBt;
+	JRadioButton iceRadioBt;
+
+	MainFrame main;
+	String id;
 	
-	ProductDAO pdao;
+	ProductDAO pdao = new ProductDAO();
+	
+	public OrderFrame(MainFrame main, String id) {
+		this.main = main;
+		this.id = id;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OrderFrame_D window = new OrderFrame_D();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public OrderFrame_D() {
+		this.setTitle("주문창");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(100, 100, 857, 654);
+		this.setLayout(null); // absoulute	
 		initialize();
+		this.setVisible(true);
 	}
 
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setTitle("\uC8FC\uBB38");
-		frame.setBounds(100, 100, 857, 654);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(107, 142, 35));
 		panel.setBounds(0, 0, 843, 617);
-		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -241,17 +223,17 @@ public class OrderFrame_D extends JFrame{
 		tabbedPane_1.setBounds(472, 87, 335, 512);
 		panel.add(tabbedPane_1);
 		
-		JPanel infoTab = new JPanel();
+		infoTab = new JPanel();
 		infoTab.setBackground(new Color(240, 255, 240));
 		tabbedPane_1.addTab("정보", null, infoTab, null);
 		infoTab.setLayout(null);
 		
-		JLabel menuNameL = new JLabel("menu");
+		menuNameL = new JLabel("menu");
 		menuNameL.setBounds(26, 196, 274, 34);
 		menuNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuNameL);
 		
-		JLabel menuInfoL = new JLabel("");
+		menuInfoL = new JLabel("");
 		menuInfoL.setBounds(26, 240, 274, 82);
 		menuInfoL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuInfoL);
@@ -261,8 +243,8 @@ public class OrderFrame_D extends JFrame{
 		infoTab.add(addBt);
 		
 		//라디오버튼
-		JRadioButton hotRadioBt = new JRadioButton("HOT");
-		JRadioButton iceRadioBt = new JRadioButton("ICE");
+		hotRadioBt = new JRadioButton("HOT");
+		iceRadioBt = new JRadioButton("ICE");
 		ButtonGroup groupBt = new ButtonGroup();
 		groupBt.add(hotRadioBt);
 		groupBt.add(iceRadioBt);
@@ -276,97 +258,40 @@ public class OrderFrame_D extends JFrame{
 		infoTab.add(iceRadioBt);
 		
 		
-		SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-		JSpinner spinner = new JSpinner(spinnerModel);
+		JSpinner spinner = new JSpinner();
 		spinner.setBounds(93, 422, 30, 22);
 		infoTab.add(spinner);
 		
-		JLabel menuImg = new JLabel("");
-		menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/coffee.png")));
+		menuImg = new JLabel("");
+		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\Downloads\\coffee.png"));
 		menuImg.setBounds(94, 38, 137, 127);
 		infoTab.add(menuImg);
 		
-		
+		JPanel shopTab = new JPanel();
 		shopTab.setBackground(new Color(240, 255, 240));
 		tabbedPane_1.addTab("장바구니", null, shopTab, null);
 
-		
+		JTable shopTable = new JTable();
+//		presentTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
 	
-		//장바구니 탭에 테이블 설정
+		
 		String[] shopCol = {"메뉴명", "옵션", "수량", "가격"};
-		shopDTM = new DefaultTableModel(shopCol, 0);
-		shopTable = new JTable(shopDTM);
-		
-		//추가될때마다 사이즈 1씩 증가
-		shopTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		shopTable.setAutoCreateRowSorter(true);
-		shopTable.setCellSelectionEnabled(rootPaneCheckingEnabled);
+		DefaultTableModel shopDTM = new DefaultTableModel(shopCol, 100);
 		shopTab.setLayout(null);
+		shopTable = new JTable(shopDTM);
+		JScrollPane presentScroll = new JScrollPane(shopTable);
+		presentScroll.setBounds(0, 0, 330, 380);
+		shopTab.add(presentScroll);
 		
-		JScrollPane shopScroll = new JScrollPane(shopTable);
-		shopScroll.setViewportView(shopTable);
-		shopTab.add(shopScroll);
-		shopScroll.setBounds(0, 0, 330, 380);
+//		tabbedPane_1.add(shopTab);
 		
-		//담기버튼 누르면 장바구니 탭의 테이블에 누적시키기
-		addBt.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				int count = Integer.parseInt(spinner.getValue().toString());
-				String menu = menuNameL.getText();
-				pdao = new ProductDAO();
-				ProductVO pvo = pdao.selectProduct(menu);
-					//메뉴 선택을 안했을 경우
-					if(menuNameL.getText().equals("menu")) {
-						JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-						
-						//옵션 선택을 안했을 경우	
-					}else if(!hotRadioBt.isSelected() && !iceRadioBt.isSelected()){
-						JOptionPane.showConfirmDialog(null, "HOT/ICE를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-						
-						//수량을 0개 이하로 했을 경우	
-					}else if(count <= 0) {
-//						count = Integer.parseInt(spinner.getValue().toString());
-						System.out.println(count);
-						JOptionPane.showConfirmDialog(null, "1잔 이상 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-						
-					}else {
-						String option = "";
-						if(hotRadioBt.isSelected()) {
-							option = "HOT";
-						}else {
-							option = "ICE";
-						}
-						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
-						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
-						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
-					}
-				}
-			
-			
-		});
 		
 		
 		JButton cancelBt = new JButton("\uC8FC\uBB38\uCDE8\uC18C");
-		//주문취소 리스너
-		cancelBt.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
 		cancelBt.setBounds(55, 432, 91, 23);
 		shopTab.add(cancelBt);
 		
 		JButton orderBt = new JButton("\uC8FC\uBB38\uD558\uAE30");
-		//주문하기 리스너
-		orderBt.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-			}
-		});
 		orderBt.setBounds(178, 432, 91, 23);
 		shopTab.add(orderBt);
 		
@@ -379,12 +304,7 @@ public class OrderFrame_D extends JFrame{
 		americanoImg.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				menuNameL.setText("아메리카노");
-				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/americano.png")));
-				infoTab.add(menuImg);
-				menuInfoL.setText("<html>진한 에스프레소에 정수물을 더하여<br>깔끔하고 강렬한 에스프레소를 <br>가장 부드럽게 즐길 수 있는 커피</html>");
-				hotRadioBt.setEnabled(true);
-				iceRadioBt.setEnabled(true);
+				getProductInfo("아메리카노");
 			}
 		});
 		
@@ -537,5 +457,18 @@ public class OrderFrame_D extends JFrame{
 			}
 		});
 		
+		this.setContentPane(panel);
+	}
+		
+	// 상품 정보 가져오기
+	public void getProductInfo(String pname) {
+		ProductVO pvo = pdao.selectProduct(pname);
+		
+		menuNameL.setText(pvo.getPname());
+		menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource(pvo.getImgPath())));
+		infoTab.add(menuImg);
+		menuInfoL.setText(pvo.getInfo());
+		hotRadioBt.setEnabled(false);
+		iceRadioBt.setSelected(true);
 	}
 }
