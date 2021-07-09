@@ -25,11 +25,22 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 import frame.OrderFrame_D;
+import product.ProductDAO;
+import product.ProductVO;
 
 public class OrderFrame extends JFrame {
 
+	JPanel infoTab;
+	JLabel menuNameL;
+	JLabel menuImg;
+	JLabel menuInfoL;
+	JRadioButton hotRadioBt;
+	JRadioButton iceRadioBt;
+
 	MainFrame main;
 	String id;
+	
+	ProductDAO pdao = new ProductDAO();
 	
 	public OrderFrame(MainFrame main, String id) {
 		this.main = main;
@@ -212,17 +223,17 @@ public class OrderFrame extends JFrame {
 		tabbedPane_1.setBounds(472, 87, 335, 512);
 		panel.add(tabbedPane_1);
 		
-		JPanel infoTab = new JPanel();
+		infoTab = new JPanel();
 		infoTab.setBackground(new Color(240, 255, 240));
 		tabbedPane_1.addTab("정보", null, infoTab, null);
 		infoTab.setLayout(null);
 		
-		JLabel menuNameL = new JLabel("menu");
+		menuNameL = new JLabel("menu");
 		menuNameL.setBounds(26, 196, 274, 34);
 		menuNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuNameL);
 		
-		JLabel menuInfoL = new JLabel("");
+		menuInfoL = new JLabel("");
 		menuInfoL.setBounds(26, 240, 274, 82);
 		menuInfoL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuInfoL);
@@ -232,8 +243,8 @@ public class OrderFrame extends JFrame {
 		infoTab.add(addBt);
 		
 		//라디오버튼
-		JRadioButton hotRadioBt = new JRadioButton("HOT");
-		JRadioButton iceRadioBt = new JRadioButton("ICE");
+		hotRadioBt = new JRadioButton("HOT");
+		iceRadioBt = new JRadioButton("ICE");
 		ButtonGroup groupBt = new ButtonGroup();
 		groupBt.add(hotRadioBt);
 		groupBt.add(iceRadioBt);
@@ -251,7 +262,7 @@ public class OrderFrame extends JFrame {
 		spinner.setBounds(93, 422, 30, 22);
 		infoTab.add(spinner);
 		
-		JLabel menuImg = new JLabel("");
+		menuImg = new JLabel("");
 		menuImg.setIcon(new ImageIcon("C:\\Users\\kjs64\\Downloads\\coffee.png"));
 		menuImg.setBounds(94, 38, 137, 127);
 		infoTab.add(menuImg);
@@ -293,12 +304,7 @@ public class OrderFrame extends JFrame {
 		americanoImg.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				menuNameL.setText("아메리카노");
-				menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource("/frame/infoImg/americano.png")));
-				infoTab.add(menuImg);
-				menuInfoL.setText("<html>진한 에스프레소에 정수물을 더하여<br>깔끔하고 강렬한 에스프레소를 <br>가장 부드럽게 즐길 수 있는 커피</html>");
-				hotRadioBt.setEnabled(true);
-				iceRadioBt.setEnabled(true);
+				getProductInfo("아메리카노");
 			}
 		});
 		
@@ -452,5 +458,17 @@ public class OrderFrame extends JFrame {
 		});
 		
 		this.setContentPane(panel);
+	}
+		
+	// 상품 정보 가져오기
+	public void getProductInfo(String pname) {
+		ProductVO pvo = pdao.selectProduct(pname);
+		
+		menuNameL.setText(pvo.getPname());
+		menuImg.setIcon(new ImageIcon(OrderFrame_D.class.getResource(pvo.getImgPath())));
+		infoTab.add(menuImg);
+		menuInfoL.setText(pvo.getInfo());
+		hotRadioBt.setEnabled(false);
+		iceRadioBt.setSelected(true);
 	}
 }

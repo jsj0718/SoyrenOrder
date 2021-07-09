@@ -67,5 +67,38 @@ public class ProductDAO {
 		return plist;
 	}
 	
+	// 상품 이름으로 상품 정보 가져오기
+	public ProductVO selectProduct(String pname) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String SQL = "SELECT * FROM PRODUCT WHERE PNAME = ?";
+		
+		ProductVO pvo = null;
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, pname);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				pvo = new ProductVO();
+				
+				pvo.setProdID(rs.getInt("PRODID"));
+				pvo.setPname(rs.getString("PNAME"));
+				pvo.setPrice(rs.getInt("PRICE"));
+				pvo.setInfo(rs.getString("INFO"));
+				pvo.setCategory(rs.getString("CATEGORY"));
+				pvo.setImgPath(rs.getString("IMGPATH"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		
+		return pvo;
+	}
+	
 	
 }
