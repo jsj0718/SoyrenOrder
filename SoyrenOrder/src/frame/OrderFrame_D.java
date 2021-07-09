@@ -1,18 +1,34 @@
 package frame;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.*;
-
-import java.awt.event.*;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.border.LineBorder;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+
+import product.ProductDAO;
+import product.ProductVO;
 
 public class OrderFrame_D extends JFrame{
 
@@ -21,6 +37,7 @@ public class OrderFrame_D extends JFrame{
 	DefaultTableModel shopDTM = new DefaultTableModel();
 	JPanel shopTab = new JPanel();
 	
+	ProductDAO pdao;
 
 	/**
 	 * Launch the application.
@@ -298,7 +315,9 @@ public class OrderFrame_D extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				
 				int count = Integer.parseInt(spinner.getValue().toString());
-					
+				String menu = menuNameL.getText();
+				pdao = new ProductDAO();
+				ProductVO pvo = pdao.selectProduct(menu);
 					//메뉴 선택을 안했을 경우
 					if(menuNameL.getText().equals("menu")) {
 						JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
@@ -321,7 +340,7 @@ public class OrderFrame_D extends JFrame{
 							option = "ICE";
 						}
 						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
-						shopDTM.addRow(new String[] {menuNameL.getText(),option,spinner.getValue().toString(),"4000"});
+						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
 						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 					}
 				}
