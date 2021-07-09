@@ -41,7 +41,7 @@ public class SettlementMain extends JFrame implements ActionListener{
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 	}
-	
+	//
 	public void setComponent() {
 		
 		totalPanel = new JPanel();
