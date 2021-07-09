@@ -3,11 +3,10 @@ package orders;
 import java.io.Serializable;
 
 public class OrdersVO implements Serializable {
-	int orderID;
-	String custID;
-	int prodID;
-	int count;
-	String odate;
+	private int orderID;
+	private String custID;
+	private String odate;
+	private String orderFlag;
 	
 	public int getOrderID() {
 		return orderID;
@@ -21,24 +20,19 @@ public class OrdersVO implements Serializable {
 	public void setCustID(String custID) {
 		this.custID = custID;
 	}
-	public int getProdID() {
-		return prodID;
-	}
-	public void setProdID(int prodID) {
-		this.prodID = prodID;
-	}
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
 	public String getOdate() {
 		return odate;
 	}
 	public void setOdate(String odate) {
 		this.odate = odate;
 	}
+	public String getOrderFlag() {
+		return orderFlag;
+	}
+	public void setOrderFlag(String orderFlag) {
+		this.orderFlag = orderFlag;
+	}
+
 	
 	
 }
