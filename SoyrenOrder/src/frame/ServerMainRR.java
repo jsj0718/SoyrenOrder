@@ -6,6 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -13,8 +16,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import orders.OrdersVO;
 
-public class ServerMainRR extends JFrame implements ActionListener{
+
+public class ServerMainRR extends JFrame implements ActionListener, MouseListener{
 
 	
 	
@@ -39,6 +44,7 @@ public class ServerMainRR extends JFrame implements ActionListener{
 	JScrollPane presentScroll;
 	JScrollPane totalScroll;
 	
+	int totalRow; //전체내역의 행 
 	
 	public SettlementMain settle;
 //	public SettleFrame settle;
@@ -70,7 +76,7 @@ public class ServerMainRR extends JFrame implements ActionListener{
 		presentTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
 	
 		
-		String[] presentCol = {"주문번호", "고객ID", "음료", "제조량"};
+		String[] presentCol = {"주문번호", "음료", "제조량"};
 		presentDTM = new DefaultTableModel(presentCol, 100);
 		presentTable = new JTable(presentDTM);
 		presentScroll = new JScrollPane(presentTable);
@@ -81,7 +87,7 @@ public class ServerMainRR extends JFrame implements ActionListener{
 		totalTable = new JTable();
 		totalTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
 		
-		String[] totalCol = {"주문번호", "고객ID", "음료", "제조량"};
+		String[] totalCol = {"주문번호", "고객ID"};
 		totalDTM = new DefaultTableModel(totalCol,50);
 		totalTable = new JTable(totalDTM);
 		totalScroll = new JScrollPane(totalTable);
@@ -123,7 +129,26 @@ public class ServerMainRR extends JFrame implements ActionListener{
 		completeBt.addActionListener(this);
 		settlementBt.addActionListener(this);
 	}
-
+	//세부 내역에 들어갈 항목.
+//	public void addRowOrder(ArrayList<DetailOrdersVO> dlist) {
+//		String[] DetailOrdersCol = new String[3];
+//		for(DetailOrdersVO dvo : dlist) {
+//			DetailOrdersCol[0]= String.valueOf(dvo.getOrderID());
+//			DetailOrdersCol[1]= String.valueOf(dvo.getProdID());
+//			DetailOrdersCol[2]= String.valueOf(dvo.getCount());
+//		}
+//	}
+	
+//	//총주문내역에 들어갈 항목
+//	
+//	public void addRowOrder(ArrayList<OrdersVO> olist) {
+//		String[] OrdersCol = new String[2];
+//		for(OrdersVO ovo : olist) {
+//			OrdersCol[0] = String.valueOf(ovo.getOrderID());
+//			OrdersCol[1] = String.valueOf(ovo.getCustID());
+//		}
+//	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(completeBt == e.getSource()) {
@@ -137,11 +162,65 @@ public class ServerMainRR extends JFrame implements ActionListener{
 			
 		}
 	}
+	
+	
 
 
- public static void main(String[] args) {
+
+@Override
+public void mouseClicked(MouseEvent e) {
+	if(totalTable == e.getSource()) {
+		//totaltable의 행 선택시 msg에 orderId와 custId를 전송.
+		OrderMessage omsg = new OrderMessage();
+		OrdersVO ovo = new OrdersVO();
+		totalRow = totalTable.getSelectedRow();
+		
+		ovo.setOrderId(Integer.parseInt(orderId.getText()));
+		ovo.setCustID(Integer.parseInt(custId.getText()));
+		
+		//메시지로 보내기
+		omsg.setState(1);
+		omsg.set(ovo);
+		//전송된 정보의 CustId를 이용하여 OrderMessage의 다른 값들을 끌어옴
+		DetailOrderVO dvo = new DetailOrderVO();
+		dvo.getOrderId(Integer.parseInt(orderId.getText()));
+		dvo.getProdId(Integer.parseInt(prodId.getText()));
+		dvo.getCount(Integer.parseInt(count.getText()));
+		//트라이캐치 끌어오기.
+		
+		
+//		presentTable.addRowSelectionInterval(0, 1);		
+//		totalTable.removeRowSelectionInterval(0, 1);
+//		totalTable.setVisible(true);
+		System.out.println(totalRow);
+	}
+	
+	
+	
+}
+
+@Override
+public void mousePressed(MouseEvent e) {
+}
+
+@Override
+public void mouseReleased(MouseEvent e) {
+}
+
+@Override
+public void mouseEntered(MouseEvent e) {
+}
+
+@Override
+public void mouseExited(MouseEvent e) {
+}
+
+
+public static void main(String[] args) {
 	new ServerMainRR();
 }
+
+
 
 
 }

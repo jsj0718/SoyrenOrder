@@ -1,15 +1,13 @@
 package server.program;
 
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.net.*;
 import java.net.Socket;
 
-import server.frame.ServerMain;
 
 public class Server {
 	public static void main(String[] args) {
 		try {
-			ServerMain serverMain = new ServerMain();
 			
 			ServerSocket serverSocket = new ServerSocket(7777);
 
@@ -19,7 +17,7 @@ public class Server {
 			System.out.println("클라인언트 접속");
 			//서버핸들러 쓰레드 시작 
 			//서버핸들러 역할은 클라이언트와 통신
-			Thread serverHandler = new ServerHandler(socket, serverMain);
+			Thread serverHandler = new ServerHandler(socket);
 			serverHandler.start();
 		
 		} catch (IOException e) {

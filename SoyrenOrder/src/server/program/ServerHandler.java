@@ -9,18 +9,15 @@ import java.net.Socket;
 
 import customer.CustomerDAO;
 import message.CustomerMessage;
-import server.frame.ServerMain;
 
 public class ServerHandler extends Thread {
 	Socket socket;
-	ServerMain serverMain;
 	
 	public static ObjectInputStream ois;
 	public static ObjectOutputStream oos;
 
-	public ServerHandler(Socket socket, ServerMain serverMain) {
+	public ServerHandler(Socket socket) {
 		this.socket = socket;
-		this.serverMain = serverMain;
 	}
 
 	public void run() {
