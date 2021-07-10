@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 import customer.CustomerDAO;
+import customer.CustomerVO;
 import product.ProductDAO;
 import product.ProductVO;
 import salgrade.SalgradeDAO;
@@ -39,8 +40,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	JButton bestBt1;
 	JButton bestBt2;
 	JButton bestBt3;
-
 	JButton orderBt;
+	JButton withdrawalBt;	//È¸¿øÅ»Åð¹öÆ°
 
 	LoginFrame login;
 	String id;
@@ -51,13 +52,14 @@ public class MainFrame extends JFrame implements ActionListener {
 	ArrayList<ProductVO> plist;
 	
 	public OrderFrame order;
+	public CustInfoFrame custInfo;
 	
 	public MainFrame() {
 		
 		this.setTitle("MainÃ¢");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(450, 500, 416, 543);
-		this.setLayout(null); // absoulute
+		getContentPane().setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
 
@@ -70,7 +72,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.setTitle("MainÃ¢");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(450, 500, 416, 543);
-		this.setLayout(null); // absoulute
+		getContentPane().setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
 
@@ -108,10 +110,12 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
 		bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
 		bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
-
+		withdrawalBt = new JButton();
 		orderBt = new JButton();
 		
 		
+		
+		withdrawalBt.setText("È¸¿øÅ»Åð");
 		logOutBt.setText("·Î±×¾Æ¿ô");
 		mentL.setText(id + "´Ô, HOPE to spend your nice time with Soyren");
 		gradeL.setText("µî±Þ");
@@ -123,6 +127,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL2.setText(plist.get(1).getPname());
 		bestL3.setText(plist.get(2).getPname());
 		orderBt.setText("Order Now!");
+		
 
 		// info panel
 		infoPanel.setBounds(12, 10, 376, 146);
@@ -146,6 +151,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL3.setBounds(277, 130, 63, 25);
 
 		orderBt.setBounds(187, 341, 185, 141);
+		withdrawalBt.setBounds(0, 0, 91, 23);
+		
 
 		gradeF.setColumns(10);
 		totalPriceF.setColumns(10);
@@ -181,7 +188,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		infoPanel.add(mentL);
 		infoPanel.add(gradeL);
 		infoPanel.add(totalPriceL);
+		infoPanel.add(withdrawalBt);
 		totalPanel.add(infoPanel);
+		
+		
 
 		bestPanel.add(bestBeverageL);
 		bestPanel.add(bestBt1);
@@ -205,16 +215,19 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestBt1.addActionListener(this);
 		bestBt2.addActionListener(this);
 		bestBt3.addActionListener(this);
+		withdrawalBt.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// ·Î±×¾Æ¿ô Å¬¸¯ ½Ã
 		if (logOutBt == e.getSource()) {
 			JOptionPane.showConfirmDialog(null, "·Î±×¾Æ¿ô µÇ¾ú½À´Ï´Ù", "È®ÀÎ", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			dispose();
 
 		}
+		// ÁÖ¹® Å¬¸¯ ½Ã
 		else if (orderBt == e.getSource()) {
 			
 			order = null;
@@ -238,6 +251,13 @@ public class MainFrame extends JFrame implements ActionListener {
 		else if (bestBt3 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL3.getText());
+			
+		}
+		
+		// È¸¿øÅ»Åð Å¬¸¯ ½Ã
+		else if(withdrawalBt == e.getSource()) {
+			custInfo = null;
+			custInfo = new CustInfoFrame(this, id);
 			
 		}
 		

@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import product.ProductDAO;
 import product.ProductVO;
+import javax.swing.JTextField;
 
 public class OrderFrame extends JFrame {
 	
@@ -42,6 +43,7 @@ public class OrderFrame extends JFrame {
 	JLabel menuInfoL;
 	JRadioButton hotRadioBt;
 	JRadioButton iceRadioBt;
+	JTextField priceValL;
 	
 	JButton americanoImg;
 	
@@ -50,6 +52,7 @@ public class OrderFrame extends JFrame {
 	String id;
 	MainFrame main;
 	String pname;
+	int totalPrice = 0;
 	
 	public OrderFrame(MainFrame main, String id) {
 		this.main = main;
@@ -58,12 +61,15 @@ public class OrderFrame extends JFrame {
 		this.setTitle("주문창");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 857, 654);
-		this.setLayout(null); // absoulute
+		getContentPane().setLayout(null); // absoulute
 		initialize();		
 		this.setVisible(true);
 		
 	}
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public OrderFrame(MainFrame main, String id, String pname) {
 		this.main = main;
 		this.id = id;
@@ -75,7 +81,7 @@ public class OrderFrame extends JFrame {
 		this.setTitle("주문창");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 857, 654);
-		this.setLayout(null); // absoulute
+		getContentPane().setLayout(null); // absoulute
 		initialize();		
 		
 		if (pvo.getPoption().equals("T")) {
@@ -306,7 +312,13 @@ public class OrderFrame extends JFrame {
 		menuImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/image/infoimg/coffee.png")));
 		menuImg.setBounds(94, 38, 137, 127);
 		infoTab.add(menuImg);
-		
+
+		priceValL = new JTextField();
+		priceValL.setEditable(false);
+		priceValL.setText("0\uC6D0");
+		priceValL.setBounds(82, 390, 96, 21);
+		shopTab.add(priceValL);
+		priceValL.setColumns(10);
 		
 		shopTab.setBackground(new Color(240, 255, 240));
 		tabbedPane_1.addTab("장바구니", null, shopTab, null);
@@ -335,6 +347,7 @@ public class OrderFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				
 				int count = Integer.parseInt(spinner.getValue().toString());
 				String menu = menuNameL.getText();
 				pdao = new ProductDAO();
@@ -361,6 +374,10 @@ public class OrderFrame extends JFrame {
 						}
 						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
 						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
+						
+						//장바구니 총금액
+//						totalPrice += count*pvo.getPrice();
+//						priceValL.setText(totalPrice+"원");
 						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 					}
 				}		
@@ -372,21 +389,40 @@ public class OrderFrame extends JFrame {
 		cancelBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//shopDTM의 row갯수만큼 지워주기
+				int rowCount = shopDTM.getRowCount();
+				for (int i = rowCount - 1; i >= 0; i--) {
+				    shopDTM.removeRow(i);
+				}
+//				totalPrice = 0;
+//				priceValL.setText("0원");
+				JOptionPane.showMessageDialog(null, "주문이 취소되었습니다.");
 			}
 		});
 		cancelBt.setBounds(55, 432, 91, 23);
 		shopTab.add(cancelBt);
+		
+		
+		
 		
 		//주문하기 리스너
 		JButton orderBt = new JButton("\uC8FC\uBB38\uD558\uAE30");
 		orderBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 
 			}
 		});
 		orderBt.setBounds(178, 432, 91, 23);
 		shopTab.add(orderBt);
+		
+		JLabel priceL = new JLabel("\uCD1D \uAE08\uC561 :  ");
+		priceL.setBounds(22, 393, 59, 15);
+		shopTab.add(priceL);
+		
+
+		
 		
 		JLabel orderL = new JLabel("\uC8FC \uBB38 \uD558 \uAE30");
 		orderL.setBounds(332, 37, 148, 40);
@@ -514,4 +550,5 @@ public class OrderFrame extends JFrame {
 		hotRadioBt.setEnabled(true);
 		iceRadioBt.setEnabled(true);
 	}
+
 }
