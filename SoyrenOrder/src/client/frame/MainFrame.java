@@ -41,7 +41,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	JButton bestBt2;
 	JButton bestBt3;
 	JButton orderBt;
-	JButton withdrawalBt;	//회원탈퇴버튼
+	JButton myInfoBt;	//회원탈퇴버튼
 
 	LoginFrame login;
 	String id;
@@ -110,12 +110,12 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
 		bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
 		bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
-		withdrawalBt = new JButton();
+		myInfoBt = new JButton();
 		orderBt = new JButton();
 		
 		
 		
-		withdrawalBt.setText("회원탈퇴");
+		myInfoBt.setText("내정보");
 		logOutBt.setText("로그아웃");
 		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
 		gradeL.setText("등급");
@@ -151,7 +151,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL3.setBounds(277, 130, 63, 25);
 
 		orderBt.setBounds(187, 341, 185, 141);
-		withdrawalBt.setBounds(0, 0, 91, 23);
+		myInfoBt.setBounds(0, 0, 91, 23);
 		
 
 		gradeF.setColumns(10);
@@ -188,7 +188,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		infoPanel.add(mentL);
 		infoPanel.add(gradeL);
 		infoPanel.add(totalPriceL);
-		infoPanel.add(withdrawalBt);
+		infoPanel.add(myInfoBt);
 		totalPanel.add(infoPanel);
 		
 		
@@ -215,7 +215,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestBt1.addActionListener(this);
 		bestBt2.addActionListener(this);
 		bestBt3.addActionListener(this);
-		withdrawalBt.addActionListener(this);
+		myInfoBt.addActionListener(this);
 	}
 
 	@Override
@@ -228,6 +228,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		}
 		// 주문 클릭 시
+		// 주문 버튼 클릭 시 주문창 이동
 		else if (orderBt == e.getSource()) {
 			
 			order = null;
@@ -254,8 +255,8 @@ public class MainFrame extends JFrame implements ActionListener {
 			
 		}
 		
-		// 회원탈퇴 클릭 시
-		else if(withdrawalBt == e.getSource()) {
+		// 내정보 클릭 시
+		else if(myInfoBt == e.getSource()) {
 			custInfo = null;
 			custInfo = new CustInfoFrame(this, id);
 			
