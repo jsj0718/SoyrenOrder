@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 import customer.CustomerDAO;
-import customer.CustomerVO;
 import product.ProductDAO;
 import product.ProductVO;
 import salgrade.SalgradeDAO;
@@ -40,8 +39,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	JButton bestBt1;
 	JButton bestBt2;
 	JButton bestBt3;
+
 	JButton orderBt;
-	JButton myInfoBt;	//회원탈퇴버튼
 
 	LoginFrame login;
 	String id;
@@ -51,15 +50,14 @@ public class MainFrame extends JFrame implements ActionListener {
 	ProductDAO pdao;
 	ArrayList<ProductVO> plist;
 	
-	public OrderFrame order;
-	public CustInfoFrame custInfo;
+	OrderFrame order;
 	
 	public MainFrame() {
 		
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(450, 500, 416, 543);
-		getContentPane().setLayout(null); // absoulute
+		this.setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
 
@@ -72,7 +70,20 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(450, 500, 416, 543);
-		getContentPane().setLayout(null); // absoulute
+		this.setLayout(null); // absoulute
+		setComponent();
+		this.setVisible(true);
+
+	}
+	
+	public MainFrame(OrderFrame order, String id) {
+		this.order = order;
+		this.id = id;
+		
+		this.setTitle("Main창");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(450, 500, 416, 543);
+		this.setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
 
@@ -110,12 +121,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
 		bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
 		bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
-		myInfoBt = new JButton();
+
 		orderBt = new JButton();
 		
 		
-		
-		myInfoBt.setText("내정보");
 		logOutBt.setText("로그아웃");
 		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
 		gradeL.setText("등급");
@@ -127,7 +136,6 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL2.setText(plist.get(1).getPname());
 		bestL3.setText(plist.get(2).getPname());
 		orderBt.setText("Order Now!");
-		
 
 		// info panel
 		infoPanel.setBounds(12, 10, 376, 146);
@@ -151,8 +159,6 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL3.setBounds(277, 130, 63, 25);
 
 		orderBt.setBounds(187, 341, 185, 141);
-		myInfoBt.setBounds(0, 0, 91, 23);
-		
 
 		gradeF.setColumns(10);
 		totalPriceF.setColumns(10);
@@ -188,10 +194,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		infoPanel.add(mentL);
 		infoPanel.add(gradeL);
 		infoPanel.add(totalPriceL);
-		infoPanel.add(myInfoBt);
 		totalPanel.add(infoPanel);
-		
-		
 
 		bestPanel.add(bestBeverageL);
 		bestPanel.add(bestBt1);
@@ -215,19 +218,16 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestBt1.addActionListener(this);
 		bestBt2.addActionListener(this);
 		bestBt3.addActionListener(this);
-		myInfoBt.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// 로그아웃 클릭 시
 		if (logOutBt == e.getSource()) {
 			JOptionPane.showConfirmDialog(null, "로그아웃 되었습니다", "확인", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			dispose();
 
 		}
-		// 주문 클릭 시
 		// 주문 버튼 클릭 시 주문창 이동
 		else if (orderBt == e.getSource()) {
 			
@@ -238,28 +238,21 @@ public class MainFrame extends JFrame implements ActionListener {
 			dispose();
 			
 		}
-		// 베스트 상품 클릭 시 바로 주문창 이동
+		// 베스트 상품 클릭 시 해당 제품 주문창으로 이동
 		else if (bestBt1 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL1.getText());
-			
+			dispose();
 		}
 		else if (bestBt2 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL2.getText());
-			
+			dispose();
 		}
 		else if (bestBt3 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL3.getText());
-			
-		}
-		
-		// 내정보 클릭 시
-		else if(myInfoBt == e.getSource()) {
-			custInfo = null;
-			custInfo = new CustInfoFrame(this, id);
-			
+			dispose();
 		}
 		
 	}

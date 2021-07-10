@@ -108,4 +108,23 @@ public class CartDAO {
 		return -1;	// DB 오류
 	}
 	
+	// 주문 취소
+	public int deleteCart(String custID) {
+		String SQL = "DELETE FROM CART WHERE CUSTID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, custID);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		return -1;	// DB 오류
+	}
+	
 }

@@ -124,7 +124,6 @@ public class CustInfoFrame extends JFrame implements ActionListener{
 			}else {
 				// 사용자가 yes를 선택했을 경우
 				CustomerDAO cdao = new CustomerDAO();
-//				CustomerVO cvo = new CustomerVO();
 				
 				cdao.delete(id);
 				JOptionPane.showConfirmDialog(null, "회원탈퇴 되었습니다", "확인", JOptionPane.DEFAULT_OPTION,
@@ -133,21 +132,7 @@ public class CustInfoFrame extends JFrame implements ActionListener{
 				
 				
 			}
-			
-//			String custID = idField.getText();
-//			public void mouseClicked(MouseEvent e) {
-//				if (infoBt == e.getSource()) {
-//					bookRow = bookTable.getSelectedRow(); // 선택된 행을 가져온다. bookrow가
-//
-//					String bookId = bookTable.getValueAt(bookRow, 0).toString();
-//					String bookName = bookTable.getValueAt(bookRow, 1).toString();
-//					String publisher = bookTable.getValueAt(bookRow, 2).toString();
-//					String price = bookTable.getValueAt(bookRow, 3).toString();
-//			
-//			bookIdVal.setText(bookId);
-//			bookNameVal.setText(bookName);
-//			publisherVal.setText(publisher);
-//			priceVal.setText(price);
+
 		}
 	}
 

@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -32,6 +33,7 @@ import cart.CartDAO;
 import cart.CartVO;
 import product.ProductDAO;
 import product.ProductVO;
+
 public class OrderFrame extends JFrame implements ActionListener, MouseListener {
 	JPanel panel;
 	
@@ -48,6 +50,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 	JLabel menuInfoL;
 	JRadioButton hotRadioBt;
 	JRadioButton iceRadioBt;
+	JLabel totalPriceL;
 	
 	SpinnerNumberModel spinnerModel;
 	JSpinner spinner;
@@ -59,7 +62,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 	CartDAO cadao = new CartDAO();
 	
 	String id;
-	MainFrame main = new MainFrame();
+	MainFrame main;
 	String pname;
 	
 	public OrderFrame(MainFrame main, String id) {
@@ -347,47 +350,53 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		shopScroll.setViewportView(shopTable);
 		shopTab.add(shopScroll);
 		shopScroll.setBounds(0, 0, 330, 380);
-				
+		
+		// 총 금액
+		totalPriceL = new JLabel();
+		totalPriceL.setText("0\uC6D0");
+		totalPriceL.setBounds(82, 390, 96, 21);
+		shopTab.add(totalPriceL);
+		
 		//담기버튼 누르면 장바구니 탭의 테이블에 누적시키기
-		addBt.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				int count = Integer.parseInt(spinner.getValue().toString());
-				String menu = menuNameL.getText();
-				pdao = new ProductDAO();
-				ProductVO pvo = pdao.selectProduct(menu);
-					//메뉴 선택을 안했을 경우
-					if(menuNameL.getText().equals("menu")) {
-						JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-						
-					//옵션 선택을 안했을 경우	
-					}else if(!hotRadioBt.isSelected() && !iceRadioBt.isSelected()){
-						JOptionPane.showConfirmDialog(null, "HOT/ICE를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-						
-					//수량을 0개 이하로 했을 경우	
-					}else if(count <= 0) {
-						System.out.println(count);
-						JOptionPane.showConfirmDialog(null, "1잔 이상 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-						
-					}else {
-						String option = "";
-						if(hotRadioBt.isSelected()) {
-							option = "HOT";
-						}else {
-							option = "ICE";
-						}
-						ArrayList<CartVO> calist = cadao.selectCart(id);
-						
-						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
-						addRowCart(calist);
-						
-//						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
-						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
-					}
-				}		
-		});
+//		addBt.addMouseListener(new MouseAdapter() {
+//			
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				
+//				int count = Integer.parseInt(spinner.getValue().toString());
+//				String menu = menuNameL.getText();
+//				pdao = new ProductDAO();
+//				ProductVO pvo = pdao.selectProduct(menu);
+//					//메뉴 선택을 안했을 경우
+//					if(menuNameL.getText().equals("menu")) {
+//						JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+//						
+//					//옵션 선택을 안했을 경우	
+//					}else if(!hotRadioBt.isSelected() && !iceRadioBt.isSelected()){
+//						JOptionPane.showConfirmDialog(null, "HOT/ICE를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+//						
+//					//수량을 0개 이하로 했을 경우	
+//					}else if(count <= 0) {
+//						System.out.println(count);
+//						JOptionPane.showConfirmDialog(null, "1잔 이상 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+//						
+//					}else {
+//						String option = "";
+//						if(hotRadioBt.isSelected()) {
+//							option = "HOT";
+//						}else {
+//							option = "ICE";
+//						}
+//						ArrayList<CartVO> calist = cadao.selectCart(id);
+//						
+//						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
+//						addRowCart(calist);
+//						
+////						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
+//						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
+//					}
+//				}		
+//		});
 		
 		
 		//주문취소 리스너
@@ -395,6 +404,14 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		cancelBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (cadao.deleteCart(id) > 0) {
+					cadao.deleteCart(id);
+					JOptionPane.showMessageDialog(null, "주문이 취소되었습니다.");
+					shopDTM.setNumRows(0);
+					initCartTable();								
+				} else {
+					JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		cancelBt.setBounds(55, 432, 91, 23);
@@ -568,9 +585,9 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		
 		if (tabbedPane_1 == e.getSource()) {	
 			shopDTM.setNumRows(0);
-//			shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
 			initCartTable();			
-			
+			totalPriceL.setText("총 금액 : " + cadao.selectCartTotalPrice(id) + "원");
+//			shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
 		}
 	}
 
@@ -604,8 +621,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		if (backSpace == e.getSource()) {
 
 			main = null;
-			main = new MainFrame();
-//			main = new MainFrame(this, id);
+			main = new MainFrame(this, id);
 			dispose();
 
 		}
@@ -636,12 +652,11 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 					option = "ICE";
 				}
 				cadao.insertCart(pvo.getProdID(), id, option, count);
+				JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 			}
 
-			JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 		}
 
 	}
-
-
+	
 }
