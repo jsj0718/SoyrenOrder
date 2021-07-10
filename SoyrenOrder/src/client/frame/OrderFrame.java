@@ -393,7 +393,7 @@ public class OrderFrame extends JFrame {
 		orderL.setFont(new Font("맑은 고딕", Font.BOLD, 27));
 		panel.add(orderL);
 		
-		
+		//메뉴 이미지 클릭했을 때 이벤트
 		americanoImg.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
