@@ -2,12 +2,13 @@ package client.frame;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -27,25 +28,36 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import cart.CartDAO;
+import cart.CartVO;
 import product.ProductDAO;
 import product.ProductVO;
 
-public class OrderFrame extends JFrame {
+public class OrderFrame extends JFrame implements ActionListener, MouseListener {
+	JPanel panel;
 	
 	JTable shopTable = new JTable();
 	DefaultTableModel shopDTM = new DefaultTableModel();
-	JPanel shopTab = new JPanel();
 	
+	JTabbedPane tabbedPane;
+	JTabbedPane tabbedPane_1;
 	JPanel infoTab;
+	JPanel shopTab;
+	
 	JLabel menuNameL;
 	JLabel menuImg;
 	JLabel menuInfoL;
 	JRadioButton hotRadioBt;
 	JRadioButton iceRadioBt;
 	
-	JButton americanoImg;
+	SpinnerNumberModel spinnerModel;
+	JSpinner spinner;
+	
+	JButton backSpace;
+	JButton addBt;
 	
 	ProductDAO pdao;
+	CartDAO cadao = new CartDAO();
 	
 	String id;
 	MainFrame main;
@@ -60,6 +72,8 @@ public class OrderFrame extends JFrame {
 		this.setBounds(100, 100, 857, 654);
 		this.setLayout(null); // absoulute
 		initialize();		
+		
+		eventList();
 		this.setVisible(true);
 		
 	}
@@ -84,21 +98,28 @@ public class OrderFrame extends JFrame {
 			getProductInfoO(pname);
 		}
 		
+		eventList();
+		
 		this.setVisible(true);
 		
 	}
 
 	private void initialize() {
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBackground(new Color(107, 142, 35));
 		panel.setBounds(0, 0, 843, 617);
 		panel.setLayout(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBackground(UIManager.getColor("Button.background"));
 		tabbedPane.setBounds(36, 87, 418, 512);
 		panel.add(tabbedPane);
+		
+		// 뒤로가기 버튼
+		backSpace = new JButton("뒤로가기");
+		backSpace.setBounds(700, 30, 100, 50);
+		panel.add(backSpace);
 		
 		// 커피 탭
 		JPanel coffeeTab = new JPanel();
@@ -127,7 +148,7 @@ public class OrderFrame extends JFrame {
 		coffeeTab.add(cappuccinoL);
 		
 		// 커피 탭 이미지
-		americanoImg = new JButton("");
+		JButton americanoImg = new JButton("");
 		americanoImg.setIcon(new ImageIcon(OrderFrame.class.getResource("/image/img/americano.jpg")));
 		americanoImg.setForeground(new Color(240, 255, 240));
 		americanoImg.setBounds(40, 33, 83, 60);
@@ -258,7 +279,7 @@ public class OrderFrame extends JFrame {
 		panel_1.add(lemonteaL);
 		
 		// 정보 탭
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane_1.setBounds(472, 87, 335, 512);
 		panel.add(tabbedPane_1);
 		
@@ -277,7 +298,7 @@ public class OrderFrame extends JFrame {
 		menuInfoL.setHorizontalAlignment(SwingConstants.CENTER);
 		infoTab.add(menuInfoL);
 		
-		JButton addBt = new JButton("\uB2F4\uAE30");
+		addBt = new JButton("\uB2F4\uAE30");
 		addBt.setBounds(159, 421, 91, 23);
 		infoTab.add(addBt);
 		
@@ -297,8 +318,8 @@ public class OrderFrame extends JFrame {
 		infoTab.add(iceRadioBt);
 		
 		// 수량
-		SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-		JSpinner spinner = new JSpinner(spinnerModel);
+		spinnerModel = new SpinnerNumberModel();
+		spinner = new JSpinner(spinnerModel);
 		spinner.setBounds(93, 422, 30, 22);
 		infoTab.add(spinner);
 		
@@ -307,12 +328,11 @@ public class OrderFrame extends JFrame {
 		menuImg.setBounds(94, 38, 137, 127);
 		infoTab.add(menuImg);
 		
-		
+		shopTab = new JPanel();
 		shopTab.setBackground(new Color(240, 255, 240));
 		tabbedPane_1.addTab("장바구니", null, shopTab, null);
-
 		
-	
+		
 		//장바구니 탭에 테이블 설정
 		String[] shopCol = {"메뉴명", "옵션", "수량", "가격"};
 		shopDTM = new DefaultTableModel(shopCol, 0);
@@ -328,7 +348,7 @@ public class OrderFrame extends JFrame {
 		shopScroll.setViewportView(shopTable);
 		shopTab.add(shopScroll);
 		shopScroll.setBounds(0, 0, 330, 380);
-		
+				
 		//담기버튼 누르면 장바구니 탭의 테이블에 누적시키기
 		addBt.addMouseListener(new MouseAdapter() {
 			
@@ -359,8 +379,12 @@ public class OrderFrame extends JFrame {
 						}else {
 							option = "ICE";
 						}
+						ArrayList<CartVO> calist = cadao.selectCart(id);
+						
 						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
-						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
+						addRowCart(calist);
+						
+//						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
 						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 					}
 				}		
@@ -513,5 +537,109 @@ public class OrderFrame extends JFrame {
 		menuInfoL.setText(pvo.getInfo());
 		hotRadioBt.setEnabled(true);
 		iceRadioBt.setEnabled(true);
+	}
+	
+	public void initCartTable() {
+		ArrayList<CartVO> calist = cadao.selectCart(id);
+		addRowCart(calist);
+	}
+	
+	public void addRowCart(ArrayList<CartVO> calist) {
+		String[] cartColumns = new String[4];
+		for (CartVO cavo : calist) {
+			cartColumns[0] = cavo.getPname() + "";
+			cartColumns[1] = cavo.getCoption();
+			cartColumns[2] = cavo.getCount() + ""; 
+			cartColumns[3] = cavo.getCprice() + "";
+			
+			shopDTM.addRow(cartColumns);
+		}
+	}
+	
+	public void eventList() {
+		backSpace.addActionListener(this);
+		addBt.addActionListener(this);
+		tabbedPane_1.addMouseListener(this);
+	}
+
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+		
+		if (tabbedPane_1 == e.getSource()) {	
+			shopDTM.setNumRows(0);
+//			shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
+			initCartTable();			
+			
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (backSpace == e.getSource()) {
+
+			main = null;
+			main = new MainFrame(this, id);
+			dispose();
+
+		}
+		
+		else if (addBt == e.getSource()) {
+			String menu = menuNameL.getText();
+			int count = Integer.parseInt(spinner.getValue().toString());
+			ProductVO pvo = pdao.selectProduct(menu);
+			
+			//메뉴 선택을 안했을 경우
+			if(menuNameL.getText().equals("menu")) {
+				JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+				
+			//옵션 선택을 안했을 경우	
+			} else if(!hotRadioBt.isSelected() && !iceRadioBt.isSelected()){
+				JOptionPane.showConfirmDialog(null, "HOT/ICE를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+				
+			//수량을 0개 이하로 했을 경우	
+			} else if(count <= 0) {
+				System.out.println(count);
+				JOptionPane.showConfirmDialog(null, "1잔 이상 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+				
+			} else {
+				String option = "";
+				if(hotRadioBt.isSelected()) {
+					option = "HOT";
+				}else {
+					option = "ICE";
+				}
+				cadao.insertCart(pvo.getProdID(), id, option, count);
+			}
+
+			JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
+		}
+
 	}
 }

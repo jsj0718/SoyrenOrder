@@ -50,7 +50,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	ProductDAO pdao;
 	ArrayList<ProductVO> plist;
 	
-	public OrderFrame order;
+	OrderFrame order;
 	
 	public MainFrame() {
 		
@@ -65,6 +65,19 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	public MainFrame(LoginFrame login, String id) {
 		this.login = login;
+		this.id = id;
+		
+		this.setTitle("Main창");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(450, 500, 416, 543);
+		this.setLayout(null); // absoulute
+		setComponent();
+		this.setVisible(true);
+
+	}
+	
+	public MainFrame(OrderFrame order, String id) {
+		this.order = order;
 		this.id = id;
 		
 		this.setTitle("Main창");
@@ -215,6 +228,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			dispose();
 
 		}
+		// 주문 버튼 클릭 시 주문창 이동
 		else if (orderBt == e.getSource()) {
 			
 			order = null;
@@ -224,21 +238,21 @@ public class MainFrame extends JFrame implements ActionListener {
 			dispose();
 			
 		}
-		// 베스트 상품 클릭 시 바로 주문창 이동
+		// 베스트 상품 클릭 시 해당 제품 주문창으로 이동
 		else if (bestBt1 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL1.getText());
-			
+			dispose();
 		}
 		else if (bestBt2 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL2.getText());
-			
+			dispose();
 		}
 		else if (bestBt3 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL3.getText());
-			
+			dispose();
 		}
 		
 	}
