@@ -32,17 +32,15 @@ public class SalgradeDAO {
 		String SQL = "SELECT GRADE "
 				+ "FROM SALGRADE "
 				+ "WHERE (SELECT * "
-				+ "       FROM ( SELECT SUM(O.COUNT * P.PRICE)"
-				+ "              FROM CUSTOMER C, ORDERS O, PRODUCT P"
-				+ "              WHERE C.CUSTID = O.CUSTID"
-				+ "              AND P.PRODID = O.PRODID"
-				+ "              AND C.CUSTID = ?"
-				+ "              AND O.ODATE LIKE SUBSTR(SYSDATE, 1,6) || '%'"
-				+ "              GROUP BY rollup((O.ODATE, C.CUSTID))"
-				+ "              ORDER BY O.ODATE DESC"
-				+ "              )"
-				+ "        WHERE ROWNUM <= 1) "
-				+ "BETWEEN LOSAL AND HISAL";
+				+ "       FROM (SELECT SUM(D.COUNT * P.PRICE)"
+				+ "             FROM PRODUCT P, ORDERS O, DETAILORDERS D"
+				+ "             WHERE O.ORDERID = D.ORDERID"
+				+ "             AND D.PRODID = P.PRODID"
+				+ "             AND O.CUSTID = ?"
+				+ "             GROUP BY ROLLUP ((O.CUSTID, O.ODATE))"
+				+ "             ORDER BY SUM(D.COUNT * P.PRICE) DESC"
+				+ "             )"
+				+ "       WHERE ROWNUM <= 1) BETWEEN LOSAL AND HISAL";
 		String result = "ÀÏ¹Ý °í°´";
 		try {			
 			conn = DBConnect.getInstance();

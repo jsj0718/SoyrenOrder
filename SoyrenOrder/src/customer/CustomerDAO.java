@@ -134,15 +134,15 @@ public class CustomerDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String SQL = "SELECT * "
-				+ "FROM (SELECT SUM(O.COUNT * P.PRICE)"
-				+ "      FROM CUSTOMER C, ORDERS O, PRODUCT P"
-				+ "      WHERE C.CUSTID = O.CUSTID"
-				+ "      AND P.PRODID = O.PRODID"
-				+ "      AND C.CUSTID = ?"
-				+ "      AND O.ODATE LIKE SUBSTR(SYSDATE, 1,6) || '%'"
-				+ "      GROUP BY ROLLUP((O.ODATE, C.CUSTID))"
-				+ "      ORDER BY O.ODATE DESC"
-				+ "      ) "
+				+ "FROM (SELECT SUM(P.PRICE * D.COUNT)"
+				+ "      FROM ORDERS O, DETAILORDERS D, PRODUCT P"
+				+ "      WHERE O.ORDERID = D.ORDERID"
+				+ "      AND D.PRODID = P.PRODID"
+				+ "      AND CUSTID = ?"
+				+ "      AND ODATE LIKE SUBSTR(SYSDATE,1, 6) || '%'"
+				+ "      GROUP BY ROLLUP((O.CUSTID, O.ODATE))"
+				+ "      ORDER BY SUM(P.PRICE * D.COUNT) DESC"
+				+ "      )"
 				+ "WHERE ROWNUM <= 1";
 		int result = 0;
 		try {			

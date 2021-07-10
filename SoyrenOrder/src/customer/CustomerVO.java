@@ -3,10 +3,10 @@ package customer;
 import java.io.Serializable;
 
 public class CustomerVO implements Serializable {
-	private String custID;
-	private String pwd;
-	private String cname;
-	private String phone;
+	String custID;
+	String pwd;
+	String cname;
+	String phone;
 	
 	public String getCustID() {
 		return custID;
