@@ -21,13 +21,16 @@ public class ServerAlarmFrame extends JFrame implements ActionListener{
 	JButton noBt;
 	
 	public ServerMain serverMain;
+	
 	OrderFrame order;
 	String id;
+	int orderID;
 	
 	
-	public ServerAlarmFrame(OrderFrame order, String id) {
+	public ServerAlarmFrame(OrderFrame order, String id, int orderID) {
 		this.order = order;
 		this.id = id;
+		this.orderID = orderID;
 	
 		this.setTitle("주문이 들어왔습니다.");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -36,19 +39,6 @@ public class ServerAlarmFrame extends JFrame implements ActionListener{
 		setComponent();
 		this.setVisible(true);
 		
-		
-	}
-	
-	public ServerAlarmFrame(String id) {
-	
-		this.id = id;
-		
-		this.setTitle("주문이 들어왔습니다.");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setBounds(500, 300, 400, 250);
-		this.setLayout(null); //absoulute
-		setComponent();
-		this.setVisible(true);
 		
 	}
 	
@@ -119,8 +109,8 @@ public class ServerAlarmFrame extends JFrame implements ActionListener{
 	}
 	
 	
-	public static void main(String[] args) {
-		new ServerAlarmFrame("RSE");
-	}
+//	public static void main(String[] args) {
+//		new ServerAlarmFrame();
+//	}
 
 }

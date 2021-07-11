@@ -31,7 +31,7 @@ public class OrdersDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String SQL = "INSERT INTO ORDERS (ORDERID, CUSTID)" 
-				+ " VALUES (ORDERS_ORDERSID_SEQ, ?)";
+				+ " VALUES (ORDERS_ORDERID_SEQ.NEXTVAL, ?)";
 		try {
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
@@ -44,5 +44,52 @@ public class OrdersDAO {
 			closeAll(null, pstmt, conn);
 		}
 		return -1;	// DB 오류
+	}
+	
+	// 주문 삭제
+	public int deleteOrder(String custID, int orderID) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String SQL = "DELETE FROM ORDERS" 
+				+ " WHERE CUSTID = ?"
+				+ " AND ORDERID = ?";
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, custID);
+			pstmt.setInt(1, orderID);
+			return pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		return -1;	// DB 오류
+	}
+	
+	// 주문번호 가져오기
+	public int selectOrderID() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String SQL = "SELECT MAX(ORDERID) FROM ORDERS";
+		int result = 0;
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		return -1; // DB 오류
 	}
 }

@@ -117,13 +117,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		pdao = new ProductDAO();
 		
 		plist = pdao.selectBestProduct();
-		
-		bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
-		bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
-		bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
-
 		orderBt = new JButton();
-		
 		
 		logOutBt.setText("로그아웃");
 		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
@@ -132,9 +126,23 @@ public class MainFrame extends JFrame implements ActionListener {
 		totalPriceL.setText("TotalPrice");
 		totalPriceF.setText(cdao.monthCustBuy(id) + "원");
 		bestBeverageL.setText("BEST BERVERAGE");
-		bestL1.setText(plist.get(0).getPname());
-		bestL2.setText(plist.get(1).getPname());
-		bestL3.setText(plist.get(2).getPname());
+		
+		if (plist.size() >= 3) {
+			bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
+			bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
+			bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
+			bestL1.setText(plist.get(0).getPname());
+			bestL2.setText(plist.get(1).getPname());
+			bestL3.setText(plist.get(2).getPname());			
+		} else {
+			bestBt1 = new JButton();
+			bestBt2 = new JButton();
+			bestBt3 = new JButton();
+			bestL1.setText("Best1");
+			bestL2.setText("Best2");
+			bestL3.setText("Best3");
+		}
+		
 		orderBt.setText("Order Now!");
 
 		// info panel
@@ -239,17 +247,17 @@ public class MainFrame extends JFrame implements ActionListener {
 			
 		}
 		// 베스트 상품 클릭 시 해당 제품 주문창으로 이동
-		else if (bestBt1 == e.getSource()) {
+		else if (bestBt1 == e.getSource() && plist.size() >= 3) {
 			order = null;
 			order = new OrderFrame(this, id, bestL1.getText());
 			dispose();
 		}
-		else if (bestBt2 == e.getSource()) {
+		else if (bestBt2 == e.getSource() && plist.size() >= 3) {
 			order = null;
 			order = new OrderFrame(this, id, bestL2.getText());
 			dispose();
 		}
-		else if (bestBt3 == e.getSource()) {
+		else if (bestBt3 == e.getSource() && plist.size() >= 3) {
 			order = null;
 			order = new OrderFrame(this, id, bestL3.getText());
 			dispose();
