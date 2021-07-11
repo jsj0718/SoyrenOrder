@@ -6,6 +6,9 @@ public class DetailOrdersVO {
 	private int prodID;
 	private int count;
 	private int price;
+	private String doption;
+	
+	private String pname;
 	
 	public int getDetailOrderID() {
 		return detailOrderID;
@@ -37,6 +40,19 @@ public class DetailOrdersVO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+	public String getDoption() {
+		return doption;
+	}
+	public void setDoption(String doption) {
+		this.doption = doption;
+	}
+	
 	
 	
 }
