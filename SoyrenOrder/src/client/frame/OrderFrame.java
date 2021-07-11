@@ -22,7 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -31,8 +30,10 @@ import javax.swing.table.DefaultTableModel;
 
 import cart.CartDAO;
 import cart.CartVO;
+import orders.OrdersDAO;
 import product.ProductDAO;
 import product.ProductVO;
+import server.frame.ServerAlarmFrame;
 
 public class OrderFrame extends JFrame implements ActionListener, MouseListener {
 	JPanel panel;
@@ -60,10 +61,13 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 	
 	ProductDAO pdao;
 	CartDAO cadao = new CartDAO();
+	OrdersDAO odao = new OrdersDAO();
 	
 	String id;
 	MainFrame main;
 	String pname;
+	
+	ServerAlarmFrame alarm;
 	
 	public OrderFrame(MainFrame main, String id) {
 		this.main = main;
@@ -404,13 +408,13 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		cancelBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (cadao.deleteCart(id) > 0) {
-					cadao.deleteCart(id);
+				int result = cadao.deleteCart(id);
+				if (result > 0) {
 					JOptionPane.showMessageDialog(null, "주문이 취소되었습니다.");
 					shopDTM.setNumRows(0);
 					initCartTable();								
 				} else {
-					JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showConfirmDialog(null, "주문 취소를 할 수 없습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -422,7 +426,20 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		orderBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				int result = odao.insertOrder(id);
+				if (result > 0) {
+					JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.");
+					// 장바구니 비우기
+//					cadao.deleteCart(id);
+//					shopDTM.setNumRows(0);
+//					initCartTable();
+					
+					
+					
+				} else {
+					JOptionPane.showConfirmDialog(null, "주문 완료를 할 수 없습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+				}
+				
 			}
 		});
 		orderBt.setBounds(178, 432, 91, 23);
@@ -558,6 +575,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 	public void initCartTable() {
 		ArrayList<CartVO> calist = cadao.selectCart(id);
 		addRowCart(calist);
+		totalPriceL.setText("총 금액 : " + cadao.selectCartTotalPrice(id) + "원");
 	}
 	
 	public void addRowCart(ArrayList<CartVO> calist) {
@@ -586,7 +604,6 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		if (tabbedPane_1 == e.getSource()) {	
 			shopDTM.setNumRows(0);
 			initCartTable();			
-			totalPriceL.setText("총 금액 : " + cadao.selectCartTotalPrice(id) + "원");
 //			shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
 		}
 	}

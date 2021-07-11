@@ -3,7 +3,13 @@ package server.frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import client.frame.OrderFrame;
 
 public class ServerAlarmFrame extends JFrame implements ActionListener{
 
@@ -15,9 +21,14 @@ public class ServerAlarmFrame extends JFrame implements ActionListener{
 	JButton noBt;
 	
 	public ServerMain serverMain;
+	OrderFrame order;
+	String id;
 	
-public ServerAlarmFrame() {
-		
+	
+	public ServerAlarmFrame(OrderFrame order, String id) {
+		this.order = order;
+		this.id = id;
+	
 		this.setTitle("주문이 들어왔습니다.");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(500, 300, 400, 250);
@@ -28,20 +39,34 @@ public ServerAlarmFrame() {
 		
 	}
 	
+	public ServerAlarmFrame(String id) {
+	
+		this.id = id;
+		
+		this.setTitle("주문이 들어왔습니다.");
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setBounds(500, 300, 400, 250);
+		this.setLayout(null); //absoulute
+		setComponent();
+		this.setVisible(true);
+		
+	}
+	
 	public void setComponent() {
 		alarmPanel = new JPanel();
 		alarmPanel.setBounds(0, 0, 500, 500);
 		alarmPanel.setLayout(null);
 		
-		custIdL = new JLabel("\uACE0\uAC1D\uBA85 : ");
-		custIdL.setBounds(138, 26, 57, 15);
+		custIdL = new JLabel("고객 ID : " + id);
+		custIdL.setBounds(138, 26, 100, 15);
 		alarmPanel.add(custIdL);
 		
+		// 테이블 구조로 변경하여 제품명, 수량을 나열하도록 만들기
 		prodNameL = new JLabel("beverage:");
 		prodNameL.setBounds(68, 76, 70, 21);
 		alarmPanel.add(prodNameL);
 		
-		 countL = new JLabel("\uC794");
+		countL = new JLabel("\uC794");
 		countL.setBounds(315, 76, 30, 21);
 		alarmPanel.add(countL);
 		
@@ -49,7 +74,7 @@ public ServerAlarmFrame() {
 		yesBt.setBounds(70, 133, 97, 23);
 		alarmPanel.add(yesBt);
 		
-		 noBt = new JButton("\uAC70\uC808");
+		noBt = new JButton("\uAC70\uC808");
 		noBt.setBounds(229, 133, 97, 23);
 		alarmPanel.add(noBt);
 		
@@ -82,7 +107,7 @@ public ServerAlarmFrame() {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if( yesBt == e.getSource()) {
+		if(yesBt == e.getSource()) {
 			JOptionPane.showConfirmDialog(null, " 승인! 고객님께 전송됩니다","확인",JOptionPane.DEFAULT_OPTION,JOptionPane.DEFAULT_OPTION);
 			serverMain = new ServerMain();
 			dispose();
@@ -95,7 +120,7 @@ public ServerAlarmFrame() {
 	
 	
 	public static void main(String[] args) {
-		new ServerAlarmFrame();
+		new ServerAlarmFrame("RSE");
 	}
 
 }
