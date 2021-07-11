@@ -135,7 +135,7 @@ public class CartDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String SQL = "SELECT C.PRODID, C.COUNT, (P.PRICE * C.COUNT) "
+		String SQL = "SELECT C.PRODID, C.COPTION, C.COUNT, (P.PRICE * C.COUNT) "
 				+ "FROM PRODUCT P, CART C "
 				+ "WHERE P.PRODID = C.PRODID "
 				+ "AND C.CUSTID = ?";
@@ -149,8 +149,9 @@ public class CartDAO {
 			while(rs.next()) {
 				CartVO cavo = new CartVO();
 				cavo.setProdID(rs.getInt(1));
-				cavo.setCount(rs.getInt(2));
-				cavo.setCprice(rs.getInt(3));
+				cavo.setCoption(rs.getString(2));
+				cavo.setCount(rs.getInt(3));
+				cavo.setCprice(rs.getInt(4));
 				
 				calist.add(cavo);
 			}

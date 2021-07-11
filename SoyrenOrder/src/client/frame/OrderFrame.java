@@ -361,49 +361,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		totalPriceL = new JLabel();
 		totalPriceL.setText("0\uC6D0");
 		totalPriceL.setBounds(82, 390, 96, 21);
-		shopTab.add(totalPriceL);
-		
-		//담기버튼 누르면 장바구니 탭의 테이블에 누적시키기
-//		addBt.addMouseListener(new MouseAdapter() {
-//			
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				
-//				int count = Integer.parseInt(spinner.getValue().toString());
-//				String menu = menuNameL.getText();
-//				pdao = new ProductDAO();
-//				ProductVO pvo = pdao.selectProduct(menu);
-//					//메뉴 선택을 안했을 경우
-//					if(menuNameL.getText().equals("menu")) {
-//						JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-//						
-//					//옵션 선택을 안했을 경우	
-//					}else if(!hotRadioBt.isSelected() && !iceRadioBt.isSelected()){
-//						JOptionPane.showConfirmDialog(null, "HOT/ICE를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-//						
-//					//수량을 0개 이하로 했을 경우	
-//					}else if(count <= 0) {
-//						System.out.println(count);
-//						JOptionPane.showConfirmDialog(null, "1잔 이상 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
-//						
-//					}else {
-//						String option = "";
-//						if(hotRadioBt.isSelected()) {
-//							option = "HOT";
-//						}else {
-//							option = "ICE";
-//						}
-//						ArrayList<CartVO> calist = cadao.selectCart(id);
-//						
-//						shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
-//						addRowCart(calist);
-//						
-////						shopDTM.addRow(new String[] {menuNameL.getText(), option, count+"", (count * pvo.getPrice()) + ""});
-//						JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
-//					}
-//				}		
-//		});
-		
+		shopTab.add(totalPriceL);		
 		
 		//주문취소 리스너
 		JButton cancelBt = new JButton("\uC8FC\uBB38\uCDE8\uC18C");
@@ -439,7 +397,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 						// 상세 주문 insert 실패 시 메소드 종료 (입력된 상세 주문 테이블, 주문 테이블 삭제)
 						if (resultDO < 1) {
 							dodao.deleteDetailOrders(orderID);
-							odao.deleteOrder(id, orderID);
+							odao.deleteOrder(orderID);
 							JOptionPane.showConfirmDialog(null, "주문 실패", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 							return;
 						}
@@ -452,7 +410,8 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 					cadao.deleteCart(id);
 					shopDTM.setNumRows(0);
 					initCartTable();
-
+					
+					alarm(id, orderID);
 				// 주문 테이블에 insert 실패 시
 				} else {
 					JOptionPane.showConfirmDialog(null, "주문 완료를 할 수 없습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -609,21 +568,18 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		}
 	}
 	
-	// 상세 주문 테이블에 장바구니 정보 담기
-//	public void addToDetailOrders(ArrayList<CartVO> calist) {
-//		for (CartVO cavo : calist) {
-//			int result = dodao.insertDetailOrders(cavo);
-//			
-//			if (result < 1) {
-//				JOptionPane.showConfirmDialog(null, "주문 실패", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-//			}
-//		}
-//	}
+	// 주문 알림 보내기
+	public void alarm(String id, int orderID) {
+		alarm = null;
+		alarm = new ServerAlarmFrame(this, id, orderID);
+	}
 	
+	// 이벤트
 	public void eventList() {
 		backSpace.addActionListener(this);
 		addBt.addActionListener(this);
 		tabbedPane_1.addMouseListener(this);
+		
 	}
 
 	
@@ -664,7 +620,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		// 뒤로가기
 		if (backSpace == e.getSource()) {
 
 			main = null;
@@ -673,6 +629,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 
 		}
 		
+		// 담기 버튼
 		else if (addBt == e.getSource()) {
 			String menu = menuNameL.getText();
 			int count = Integer.parseInt(spinner.getValue().toString());

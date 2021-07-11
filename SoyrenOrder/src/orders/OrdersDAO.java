@@ -47,16 +47,14 @@ public class OrdersDAO {
 	}
 	
 	// 주문 삭제
-	public int deleteOrder(String custID, int orderID) {
+	public int deleteOrder(int orderID) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String SQL = "DELETE FROM ORDERS" 
-				+ " WHERE CUSTID = ?"
-				+ " AND ORDERID = ?";
+		String SQL = "DELETE FROM ORDERS " 
+				+ "WHERE ORDERID = ?";
 		try {
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, custID);
 			pstmt.setInt(1, orderID);
 			return pstmt.executeUpdate();
 
@@ -92,4 +90,29 @@ public class OrdersDAO {
 		}
 		return -1; // DB 오류
 	}
+	
+	// 주문 승인
+	public int updateFlag(int orderID, String flag) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String SQL = "UPDATE ORDERS "
+				+ "SET ORDERFLAG = ? "
+				+ "WHERE ORDERID = ?";
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, flag);
+			pstmt.setInt(2, orderID);
+			
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		return -1;	// DB 오류
+	}
+	
+	
+	
 }

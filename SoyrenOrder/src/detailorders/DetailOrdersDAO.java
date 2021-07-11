@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import cart.CartVO;
 import dbconn.DBConnect;
@@ -29,15 +30,16 @@ public class DetailOrdersDAO {
 	public int insertDetailOrders(CartVO cavo, int orderID) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String SQL = "INSERT INTO DETAILORDERS (DETAILORDERID, ORDERID, PRODID, COUNT, PRICE)" 
-				+ " VALUES (DETAILORDERS_DETAILORDERID_SEQ.NEXTVAL, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO DETAILORDERS (DETAILORDERID, ORDERID, PRODID, COUNT, DOPTION, PRICE)" 
+				+ " VALUES (DETAILORDERS_DETAILORDERID_SEQ.NEXTVAL, ?, ?, ?, ?, ?)";
 		try {
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, orderID);
 			pstmt.setInt(2, cavo.getProdID());
 			pstmt.setInt(3, cavo.getCount());
-			pstmt.setInt(4, cavo.getCprice());
+			pstmt.setString(4, cavo.getCoption());
+			pstmt.setInt(5, cavo.getCprice());
 			
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -69,5 +71,38 @@ public class DetailOrdersDAO {
 		return -1;	// DB 오류
 	}
 	
+	// DetailOrders 정보 가져오기
+	public ArrayList<DetailOrdersVO> selectDetailOrders(int orderID) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String SQL = "SELECT P.PNAME, D.DOPTION, D.COUNT "
+				+ "FROM PRODUCT P, DETAILORDERS D "
+				+ "WHERE P.PRODID = D.PRODID "
+				+ "AND D.ORDERID = ?";
+		ArrayList<DetailOrdersVO> dolist = new ArrayList<>();
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, orderID);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				DetailOrdersVO dovo = new DetailOrdersVO();
+				dovo.setPname(rs.getString(1));
+				dovo.setDoption(rs.getString(2));
+				dovo.setCount(rs.getInt(3));
+				
+				dolist.add(dovo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		
+		return dolist;
+	}
 	
 }
