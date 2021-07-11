@@ -56,7 +56,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		this.setTitle("Mainâ");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(450, 500, 416, 543);
+		this.setBounds(450, 150, 416, 543);
 		this.setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
@@ -69,7 +69,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		this.setTitle("Mainâ");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(450, 500, 416, 543);
+		this.setBounds(450, 250, 416, 543);
 		this.setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
@@ -118,6 +118,10 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		plist = pdao.selectBestProduct();
 		
+//		for (ProductVO pvo : plist) {
+//			System.out.println(pvo.getPname());
+//		}
+//		
 		bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
 		bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
 		bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));

@@ -2,8 +2,16 @@ package frame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
+
+import client.program.ClientHandler;
+import customer.CustomerVO;
+import message.CustomerMessage;
+import message.OrdersMessage;
+import orders.OrdersVO;
+import server.program.ServerHandler;
 
 public class ServerAlarmFrame extends JFrame implements ActionListener{
 
@@ -13,6 +21,10 @@ public class ServerAlarmFrame extends JFrame implements ActionListener{
 	JLabel countL;
 	JButton yesBt;
 	JButton noBt;
+	
+	JLabel custIdVal;
+	JLabel prodNameVal;
+	JLabel countVal;
 	
 	public ServerMainRR serverMain;
 	
@@ -37,13 +49,25 @@ public ServerAlarmFrame() {
 		custIdL.setBounds(138, 26, 57, 15);
 		alarmPanel.add(custIdL);
 		
+		custIdVal = new JLabel();
+		custIdL.setBounds(210, 26, 57, 15);
+		alarmPanel.add(custIdVal);
+		
 		prodNameL = new JLabel("beverage:");
 		prodNameL.setBounds(68, 76, 70, 21);
 		alarmPanel.add(prodNameL);
+
+		prodNameVal = new JLabel();
+		prodNameVal.setBounds(120, 76, 70, 21);
+		alarmPanel.add(prodNameVal);
 		
-		 countL = new JLabel("\uC794");
+		countL = new JLabel("\uC794");
 		countL.setBounds(315, 76, 30, 21);
 		alarmPanel.add(countL);
+
+		countVal = new JLabel();
+		countVal.setBounds(215, 76, 30, 21);
+		alarmPanel.add(countVal);
 		
 		yesBt = new JButton("\uC2B9\uC778");
 		yesBt.setBounds(70, 133, 97, 23);
@@ -58,6 +82,10 @@ public ServerAlarmFrame() {
 		alarmPanel.add(countL);
 		alarmPanel.add(yesBt);
 		alarmPanel.add(noBt);
+		
+		alarmPanel.add(custIdVal);
+		alarmPanel.add(prodNameVal);
+		alarmPanel.add(countVal);
 		
 		this.setContentPane(alarmPanel);
 		eventList();
@@ -79,15 +107,37 @@ public ServerAlarmFrame() {
 	
 	
 	
-	
+	//맞는거니..?
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if( yesBt == e.getSource()) {
+			OrdersMessage omsg = new OrdersMessage();
+			OrdersVO ovo = new OrdersVO();
+			ovo.setOrderFlag("T");
+			omsg.setState(2);
+			omsg.setOvo(ovo);
+			
 			JOptionPane.showConfirmDialog(null, " 승인! 고객님께 전송됩니다","확인",JOptionPane.DEFAULT_OPTION,JOptionPane.DEFAULT_OPTION);
 			serverMain = new ServerMainRR();
 			dispose();
+			
+			try {
+				ServerHandler.oos.writeObject(omsg);
+				ServerHandler.oos.flush();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			
 		}
 		if(noBt ==e.getSource()) {
+			OrdersMessage omsg = new OrdersMessage();
+			OrdersVO ovo = new OrdersVO();
+			ovo.setOrderFlag("F");
+			omsg.setState(2);
+			omsg.setOvo(ovo);
+			
+			
 			JOptionPane.showConfirmDialog(null, " 거절! 고객님께 전송됩니다","확인",JOptionPane.DEFAULT_OPTION,JOptionPane.DEFAULT_OPTION);
 			dispose();
 		}

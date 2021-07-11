@@ -6,21 +6,22 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import customer.CustomerDAO;
 import message.CustomerMessage;
-import server.frame.ServerMain;
+import message.OrdersMessage;
+import orders.OrdersDAO;
+import orders.OrdersVO;
 
 public class ServerHandler extends Thread {
 	Socket socket;
-	ServerMain serverMain;
 	
 	public static ObjectInputStream ois;
 	public static ObjectOutputStream oos;
 
-	public ServerHandler(Socket socket, ServerMain serverMain) {
+	public ServerHandler(Socket socket) {
 		this.socket = socket;
-		this.serverMain = serverMain;
 	}
 
 	public void run() {
@@ -35,7 +36,7 @@ public class ServerHandler extends Thread {
 
 			CustomerMessage inCMsg = null;
 //			ProductMessage inPMsg = null;
-//			OrdersMessage inOMsg = null;
+			OrdersMessage inOMsg = null;
 //			SalgradeMessage inSMsg = null;
 			Object obj = null;
 			
@@ -73,8 +74,8 @@ public class ServerHandler extends Thread {
 						oos.writeObject(outMsg);
 						oos.flush();
 
-					}
-				}
+					
+				
 //				} else if (obj instanceof ProductMessage) {
 //					inPMsg = (ProductMessage) obj;
 //					ProductMessage outMsg = new ProductMessage();
@@ -87,25 +88,25 @@ public class ServerHandler extends Thread {
 //						oos.flush();
 //					}
 //
-//				} else if (obj instanceof OrdersMessage) {
-//					inOMsg = (OrdersMessage) obj;
-//					OrdersMessage outMsg = new OrdersMessage();
-//					OrdersDAO odao = new OrdersDAO();
-//					if (inOMsg.getState() == 1) { // 주문 리스트 조회
+					}else if(obj instanceof OrdersMessage) {
+					inOMsg = (OrdersMessage) obj;
+					OrdersMessage outOMsg = new OrdersMessage();
+					OrdersDAO odao = new OrdersDAO();
+					if (inOMsg.getState() == 1) { // 주문 리스트 조회
 //						String custId = inOMsg.getOvo().getCustId();
-//						ArrayList<OrdersVO> olist = odao.selectOrder(custId);
-//						outMsg.setState(1);
-//						outMsg.setOlist(olist);
-//						oos.writeObject(outMsg);
-//						oos.flush();
-//					}else if (inOMsg.getState() == 2) { // 주문 
-//						OrdersVO ovo = inOMsg.getOvo();
-//						int result = odao.insertOrders(ovo);
-//						outMsg.setState(2);
-//						outMsg.setOvo(ovo);
-//						outMsg.setResult(result);
-//						oos.writeObject(outMsg);
-//						oos.flush();
+						ArrayList<OrdersVO> olist = odao.selectOrdersAll();
+						outOMsg.setState(1);
+						outOMsg.setOlist(olist);
+						oos.writeObject(outOMsg);
+						oos.flush();
+					}else if (inOMsg.getState() == 2) { // 주문 
+						OrdersVO ovo = inOMsg.getOvo();
+						int result = odao.insertOrders(ovo);
+						outMsg.setState(2);
+//						outMsg.setOlist(ovo);
+						outMsg.setResult(result);
+						oos.writeObject(outMsg);
+						oos.flush();
 //					}else if (inOMsg.getState() == 3) { // 주문취소 
 //						OrdersVO ovo = inOMsg.getOvo();
 //						int result = odao.deleteOrders(ovo.getOrderId());
@@ -113,12 +114,17 @@ public class ServerHandler extends Thread {
 //						outMsg.setResult(result);
 //						oos.writeObject(outMsg);
 //						oos.flush();
-//					}
+					}
 //
 //				} 
-			}
+//			}
 
-		} catch (IOException e) {
+		}
+			
+				}
+				}
+		}
+			catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -127,4 +133,7 @@ public class ServerHandler extends Thread {
 		}
 
 	}
-}
+
+	}
+
+
