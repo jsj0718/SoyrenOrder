@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 import client.frame.OrderFrame;
 import detailorders.DetailOrdersDAO;
 import detailorders.DetailOrdersVO;
-import frame.ServerMainRR;
 import orders.OrdersDAO;
 
 public class ServerAlarmFrame extends JFrame implements ActionListener {
@@ -38,7 +37,7 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 	JTable confirmTable_1;
 	JScrollPane confirmScroll;
 
-	ServerMainRR serverMain;
+	ServerMain serverMain;
 	OrderFrame order;
 	
 	OrdersDAO odao = new OrdersDAO();
@@ -133,10 +132,11 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (yesBt == e.getSource()) {
 			odao.updateFlag(orderID, "T");
-
-			JOptionPane.showConfirmDialog(null, " 승인! 고객님께 전송됩니다", "확인", JOptionPane.DEFAULT_OPTION,
-					JOptionPane.DEFAULT_OPTION);
 			
+//			JOptionPane.showConfirmDialog(null, " 승인! 고객님께 전송됩니다", "확인", JOptionPane.DEFAULT_OPTION,
+//					JOptionPane.DEFAULT_OPTION);
+			
+//			order.alarmMessage("주문 승인");
 			dispose();
 
 		}
@@ -144,8 +144,10 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 			dodao.deleteDetailOrders(orderID);
 			odao.deleteOrder(orderID);
 
-			JOptionPane.showConfirmDialog(null, " 거절! 고객님께 전송됩니다", "확인", JOptionPane.DEFAULT_OPTION,
-					JOptionPane.DEFAULT_OPTION);
+//			JOptionPane.showConfirmDialog(null, " 거절! 고객님께 전송됩니다", "확인", JOptionPane.DEFAULT_OPTION,
+//					JOptionPane.DEFAULT_OPTION);
+			
+			order.alarmMessage("주문 거절");
 			dispose();
 		}
 	}

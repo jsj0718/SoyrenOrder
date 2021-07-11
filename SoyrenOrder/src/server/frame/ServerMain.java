@@ -71,6 +71,7 @@ public class ServerMain extends JFrame implements ActionListener, MouseListener 
 		
 		initOrdersTable();
 		this.setVisible(true);
+		
 	}
 
 	public void setComponent() {
@@ -139,6 +140,13 @@ public class ServerMain extends JFrame implements ActionListener, MouseListener 
 
 	}
 	
+	// 새로고침
+	public void refresh() {
+		this.setContentPane(totalPanel);
+		totalPanel.revalidate();
+		totalPanel.repaint();
+	}
+	
 	// 테이블에 상세 주문 정보 담기
 	public void initDetailOrdersTable(int orderNumber) {
 		ArrayList<DetailOrdersVO> dolist = dodao.selectDetailOrders(orderNumber);
@@ -178,18 +186,23 @@ public class ServerMain extends JFrame implements ActionListener, MouseListener 
 		completeBt.addActionListener(this);
 		settlementBt.addActionListener(this);
 		totalTable.addMouseListener(this);
+		totalTab.addMouseListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(completeBt == e.getSource()) {
 			totalRow = totalTable.getSelectedRow();
-			int orderNumber = Integer.parseInt(totalTable.getValueAt(totalRow, 0).toString());
-			odao.updateFlag(orderNumber, "F");
-			presentDTM.setNumRows(0);
-			totalDTM.setNumRows(0);
-			initOrdersTable();
-			JOptionPane.showConfirmDialog(null, "음료가 완성되었습니다.","확인",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+			if (totalRow != -1) {
+				int orderNumber = Integer.parseInt(totalTable.getValueAt(totalRow, 0).toString());
+				odao.updateFlag(orderNumber, "F");
+				presentDTM.setNumRows(0);
+				totalDTM.setNumRows(0);
+				initOrdersTable();
+				JOptionPane.showConfirmDialog(null, "음료가 완성되었습니다.","확인",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);				
+			} else {
+				JOptionPane.showConfirmDialog(null, "주문을 선택하세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+			}
 			
 		}
 		if(settlementBt == e.getSource()) {
@@ -213,6 +226,11 @@ public void mouseClicked(MouseEvent e) {
 		totalRow = totalTable.getSelectedRow();
 		int orderNumber = Integer.parseInt(totalTable.getValueAt(totalRow, 0).toString());
 		initDetailOrdersTable(orderNumber);
+	}
+	
+	else if (totalTab == e.getSource()) {
+		totalDTM.setNumRows(0);
+		initOrdersTable();
 	}
 }
 

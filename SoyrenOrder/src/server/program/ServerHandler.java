@@ -9,6 +9,8 @@ import java.net.Socket;
 
 import customer.CustomerDAO;
 import message.CustomerMessage;
+import message.OrdersMessage;
+import orders.OrdersDAO;
 import server.frame.ServerMain;
 
 public class ServerHandler extends Thread {
@@ -35,9 +37,11 @@ public class ServerHandler extends Thread {
 
 			CustomerMessage inCMsg = null;
 //			ProductMessage inPMsg = null;
-//			OrdersMessage inOMsg = null;
+			OrdersMessage inOMsg = null;
 //			SalgradeMessage inSMsg = null;
 			Object obj = null;
+			
+			
 			
 			while ((obj = ois.readObject()) != null) {
 				if (obj instanceof CustomerMessage) {
@@ -71,10 +75,10 @@ public class ServerHandler extends Thread {
 						outMsg.setState(3);
 						outMsg.setResult(result);
 						oos.writeObject(outMsg);
-						oos.flush();
-
+						oos.flush();	
 					}
 				}
+				
 //				} else if (obj instanceof ProductMessage) {
 //					inPMsg = (ProductMessage) obj;
 //					ProductMessage outMsg = new ProductMessage();

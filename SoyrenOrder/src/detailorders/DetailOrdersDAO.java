@@ -105,4 +105,37 @@ public class DetailOrdersDAO {
 		return dolist;
 	}
 	
+	public ArrayList<DetailOrdersVO> selectSales() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String SQL = "SELECT P.PNAME, SUM(D.COUNT), SUM(P.PRICE * D.COUNT) "
+				+ "FROM PRODUCT P, DETAILORDERS D "
+				+ "WHERE P.PRODID = D.PRODID "
+				+ "GROUP BY P.PNAME "
+				+ "ORDER BY SUM(D.COUNT) DESC";
+		ArrayList<DetailOrdersVO> dolist = new ArrayList<>();
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				DetailOrdersVO dovo = new DetailOrdersVO();
+				dovo.setPname(rs.getString(1));
+				dovo.setCount(rs.getInt(2));
+				dovo.setPrice(rs.getInt(3));
+				
+				dolist.add(dovo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		
+		return dolist;
+	}
+	
 }

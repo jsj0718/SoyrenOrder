@@ -143,4 +143,52 @@ public class OrdersDAO {
 		return olist;
 	}
 	
+	// 매출 계산
+	public ArrayList<OrdersVO> selectSales(String select) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String SQL = "";
+		if (select.equals("날짜")) {
+			SQL = "SELECT SUBSTR(O.ODATE, 1, 8), SUM(D.PRICE) "
+				+ "FROM ORDERS O, DETAILORDERS D "
+				+ "WHERE O.ORDERID = D.ORDERID "
+				+ "GROUP BY SUBSTR(O.ODATE, 1, 8) "
+				+ "ORDER BY SUBSTR(O.ODATE, 1, 8) DESC";			
+		} else if (select.equals("고객")) {
+			SQL = "SELECT O.CUSTID, SUM(D.PRICE) "
+				+ "FROM ORDERS O, DETAILORDERS D "
+				+ "WHERE O.ORDERID = D.ORDERID "
+				+ "GROUP BY O.CUSTID "
+				+ "ORDER BY SUM(D.PRICE) DESC";
+		} 
+		
+		ArrayList<OrdersVO> olist = new ArrayList<>();
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				OrdersVO ovo = new OrdersVO();
+				
+				if (select.equals("날짜")) {
+					ovo.setOdate(rs.getString(1));
+					ovo.setOprice(rs.getInt(2));
+				} else if (select.equals("고객")) {
+					ovo.setCustID(rs.getString(1));
+					ovo.setOprice(rs.getInt(2));					
+				}
+				
+				olist.add(ovo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		
+		return olist;
+	}
 }

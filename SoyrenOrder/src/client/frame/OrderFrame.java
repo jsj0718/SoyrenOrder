@@ -581,7 +581,12 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		tabbedPane_1.addMouseListener(this);
 		
 	}
-
+	
+	// 알림 메세지
+	public void alarmMessage(String Message) {
+		JOptionPane.showConfirmDialog(null, Message, "확인", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.DEFAULT_OPTION);
+	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -633,7 +638,10 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		else if (addBt == e.getSource()) {
 			String menu = menuNameL.getText();
 			int count = Integer.parseInt(spinner.getValue().toString());
-			ProductVO pvo = pdao.selectProduct(menu);
+			ProductVO pvo = null;
+			if (!menu.equals("menu")) {
+				pvo = pdao.selectProduct(menu);				
+			}
 			
 			//메뉴 선택을 안했을 경우
 			if(menuNameL.getText().equals("menu")) {
@@ -656,9 +664,9 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 					option = "ICE";
 				}
 				cadao.insertCart(pvo.getProdID(), id, option, count);
+				JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 			}
 
-			JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 		}
 
 	}
