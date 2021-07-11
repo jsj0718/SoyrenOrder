@@ -56,7 +56,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		this.setTitle("MainÃ¢");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(450, 150, 416, 543);
+		this.setBounds(450, 500, 416, 543);
 		this.setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
@@ -69,7 +69,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		
 		this.setTitle("MainÃ¢");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(450, 250, 416, 543);
+		this.setBounds(450, 500, 416, 543);
 		this.setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
@@ -117,15 +117,6 @@ public class MainFrame extends JFrame implements ActionListener {
 		pdao = new ProductDAO();
 		
 		plist = pdao.selectBestProduct();
-		
-//		for (ProductVO pvo : plist) {
-//			System.out.println(pvo.getPname());
-//		}
-//		
-		bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
-		bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
-		bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
-
 		orderBt = new JButton();
 		
 		
@@ -136,9 +127,23 @@ public class MainFrame extends JFrame implements ActionListener {
 		totalPriceL.setText("TotalPrice");
 		totalPriceF.setText(cdao.monthCustBuy(id) + "¿ø");
 		bestBeverageL.setText("BEST BERVERAGE");
-		bestL1.setText(plist.get(0).getPname());
-		bestL2.setText(plist.get(1).getPname());
-		bestL3.setText(plist.get(2).getPname());
+		
+		if (plist.size() >= 3) {
+			bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
+			bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
+			bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
+			bestL1.setText(plist.get(0).getPname());
+			bestL2.setText(plist.get(1).getPname());
+			bestL3.setText(plist.get(2).getPname());			
+		} else {
+			bestBt1 = new JButton();
+			bestBt2 = new JButton();
+			bestBt3 = new JButton();
+			bestL1.setText("Best1");
+			bestL2.setText("Best2");
+			bestL3.setText("Best3");
+		}
+		
 		orderBt.setText("Order Now!");
 
 		// info panel

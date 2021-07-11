@@ -82,34 +82,34 @@ public class CartDAO {
 	}
 	
 	// 장바구니 총 금액
-	   public int selectCartTotalPrice(String custID) {
-	      String SQL = "SELECT SUM(P.PRICE * C.COUNT) "
-	            + "FROM CART C, PRODUCT P "
-	            + "WHERE C.PRODID = P.PRODID "
-	            + "AND C.CUSTID = ? "
-	            + "GROUP BY C.CUSTID";
-	      Connection conn = null;
-	      PreparedStatement pstmt = null;
-	      ResultSet rs = null;
-	      int result = 0;
-	      
-	      try {
-	         conn = DBConnect.getInstance();
-	         pstmt = conn.prepareStatement(SQL);
-	         pstmt.setString(1, custID);
-	         rs = pstmt.executeQuery();
-	         
-	         while (rs.next()) {
-	            result = rs.getInt(1);
-	         }
-	         return result;
-	      } catch (SQLException e) {
-	         e.printStackTrace();
-	      } finally {
-	         closeAll(rs, pstmt, conn);
-	      }
-	      return -1;   // DB 오류
-	   }
+	public int selectCartTotalPrice(String custID) {
+		String SQL = "SELECT SUM(P.PRICE * C.COUNT) "
+				+ "FROM CART C, PRODUCT P "
+				+ "WHERE C.PRODID = P.PRODID "
+				+ "AND C.CUSTID = ? "
+				+ "GROUP BY C.CUSTID";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, custID);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				result = rs.getInt(1);
+			}
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		return -1;	// DB 오류
+	}
 	
 	// 주문 취소
 	public int deleteCart(String custID) {
@@ -130,4 +130,36 @@ public class CartDAO {
 		return -1;	// DB 오류
 	}
 	
+	// DETAILORDERS에 담을 장바구니 리스트 가져오기
+	public ArrayList<CartVO> selectCartList(String custID) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String SQL = "SELECT C.PRODID, C.COPTION, C.COUNT, (P.PRICE * C.COUNT) "
+				+ "FROM PRODUCT P, CART C "
+				+ "WHERE P.PRODID = C.PRODID "
+				+ "AND C.CUSTID = ?";
+		ArrayList<CartVO> calist = new ArrayList<>();
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, custID);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				CartVO cavo = new CartVO();
+				cavo.setProdID(rs.getInt(1));
+				cavo.setCoption(rs.getString(2));
+				cavo.setCount(rs.getInt(3));
+				cavo.setCprice(rs.getInt(4));
+				
+				calist.add(cavo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		return calist;
+	}
 }
