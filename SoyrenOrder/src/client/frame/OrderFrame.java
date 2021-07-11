@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -22,7 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -31,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
 
 import cart.CartDAO;
 import cart.CartVO;
+import orders.OrdersDAO;
+import orders.OrdersVO;
 import product.ProductDAO;
 import product.ProductVO;
 
@@ -422,6 +425,22 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		orderBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				OrdersDAO odao = new OrdersDAO();
+				OrdersVO ovo = new OrdersVO();
+				
+				ovo.setCustID(id);
+				ovo.setOrderFlag("F");
+				int result = odao.insertOrders(ovo);
+				
+				if(result == 1) {
+					JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.");
+					shopDTM.setNumRows(0);
+					totalPriceL.setText("총 금액 : 0원");
+					
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "주문을 실패하였습니다. 다시 시도해주세요.");
+				}
 
 			}
 		});
@@ -554,6 +573,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		hotRadioBt.setEnabled(true);
 		iceRadioBt.setEnabled(true);
 	}
+	
 	
 	public void initCartTable() {
 		ArrayList<CartVO> calist = cadao.selectCart(id);

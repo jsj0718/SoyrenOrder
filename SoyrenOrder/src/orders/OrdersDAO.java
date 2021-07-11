@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import dbcon.DBconnect;
 import dbconn.DBConnect;
 import product.ProductVO;
 
@@ -57,6 +55,7 @@ public class OrdersDAO {
 		return olist;
 	}
 	
+	//주문하기 눌렀을때 order테이블에 데이터 삽입
 	public int insertOrders(OrdersVO ovo) {
 		Connection conn = DBConnect.getInstance();
 		String sql = "INSERT INTO ORDERS (ORDERID, CUSTID, ODATE, ORDERFLAG) "
@@ -65,10 +64,8 @@ public class OrdersDAO {
 		int result = 0;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, ovo.getOrderID());
-			pstmt.setString(2, ovo.getCustID());
-			pstmt.setString(3, ovo.getOdate());
-			pstmt.setString(4, ovo.getOrderFlag());
+			pstmt.setString(1, ovo.getCustID());
+			pstmt.setString(2, ovo.getOrderFlag());
 			
 			
 			result = pstmt.executeUpdate();
@@ -80,6 +77,7 @@ public class OrdersDAO {
 		}
 		return result;
 	}
+	
 	
 	public int updateOrders(OrdersVO ovo) {
 		//DB connection 연결

@@ -82,31 +82,34 @@ public class CartDAO {
 	}
 	
 	// 장바구니 총 금액
-	public int selectCartTotalPrice(String custID) {
-		String SQL = "SELECT SUM(P.PRICE * C.COUNT) "
-				+ "FROM CART C, PRODUCT P "
-				+ "WHERE C.PRODID = P.PRODID "
-				+ "AND C.CUSTID = ? "
-				+ "GROUP BY C.CUSTID;";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int result = 0;
-		try {
-			conn = DBConnect.getInstance();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, custID);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeAll(rs, pstmt, conn);
-		}
-		return -1;	// DB 오류
-	}
+	   public int selectCartTotalPrice(String custID) {
+	      String SQL = "SELECT SUM(P.PRICE * C.COUNT) "
+	            + "FROM CART C, PRODUCT P "
+	            + "WHERE C.PRODID = P.PRODID "
+	            + "AND C.CUSTID = ? "
+	            + "GROUP BY C.CUSTID";
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      int result = 0;
+	      
+	      try {
+	         conn = DBConnect.getInstance();
+	         pstmt = conn.prepareStatement(SQL);
+	         pstmt.setString(1, custID);
+	         rs = pstmt.executeQuery();
+	         
+	         while (rs.next()) {
+	            result = rs.getInt(1);
+	         }
+	         return result;
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         closeAll(rs, pstmt, conn);
+	      }
+	      return -1;   // DB 오류
+	   }
 	
 	// 주문 취소
 	public int deleteCart(String custID) {

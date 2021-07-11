@@ -13,11 +13,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import alarm.ServerAlarmDAO;
+
 
 public class ServerMain extends JFrame implements ActionListener{
 
-	
-	
 	//정산으로 가는 버튼
 	JButton settlementBt;
 
@@ -38,6 +38,9 @@ public class ServerMain extends JFrame implements ActionListener{
 	DefaultTableModel totalDTM;
 	JScrollPane presentScroll;
 	JScrollPane totalScroll;
+	
+	ServerAlarmDAO sadao;
+	ServerAlarmFrame saframe;
 	
 	
 	public SettlementMain settle;
@@ -117,6 +120,7 @@ public class ServerMain extends JFrame implements ActionListener{
 		this.setContentPane(totalPanel);
 		
 		eventList();
+		alarm();
 
 	}
 	public void eventList() {
@@ -134,6 +138,17 @@ public class ServerMain extends JFrame implements ActionListener{
 			settle = new SettlementMain();
 			dispose();
 //			JOptionPane.showConfirmDialog(null, "내일 만들어야함 흘흙","확인",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
+			
+		}
+	}
+	
+	//서버메인창에 주문들어오면 알림창 띄워주기
+	public void alarm() {
+		sadao = new ServerAlarmDAO();
+		int result = sadao.orderCheck();
+		if(result >=1) {
+			saframe = new ServerAlarmFrame();
+//			System.out.println(result);
 			
 		}
 	}
