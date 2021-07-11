@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-import customer.CustomerVO;
 import dbconn.DBConnect;
 
 public class OrdersDAO {
@@ -113,6 +113,34 @@ public class OrdersDAO {
 		return -1;	// DB 오류
 	}
 	
-	
+	// 주문 정보 가져오기
+	public ArrayList<OrdersVO> selectOrders() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String SQL = "SELECT ORDERID, CUSTID, ODATE "
+				+ "FROM ORDERS "
+				+ "WHERE ORDERFLAG = 'T'";
+		ArrayList<OrdersVO> olist = new ArrayList<>();
+		
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				OrdersVO ovo = new OrdersVO();
+				ovo.setOrderID(rs.getInt("ORDERID"));
+				ovo.setCustID(rs.getString("CUSTID"));
+				ovo.setOdate(rs.getString("ODATE"));
+				
+				olist.add(ovo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(rs, pstmt, conn);
+		}
+		return olist;
+	}
 	
 }
