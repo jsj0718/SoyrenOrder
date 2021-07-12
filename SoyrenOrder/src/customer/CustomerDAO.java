@@ -59,7 +59,7 @@ public class CustomerDAO {
 		
 		try {
 			conn = DBConnect.getInstance();
-			String SQL = "SELECT COUNT(*) FROM CUSTOMER WHERE CUSTID = ? and PWD =?";
+			String SQL = "SELECT COUNT(*) FROM CUSTOMER WHERE CUSTID = ? and PWD =? and FLAG ='T'";
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, cvo.getCustID());
 			pstmt.setString(2, cvo.getPwd());
@@ -84,14 +84,42 @@ public class CustomerDAO {
 		return result;
 	}
 	
+	//내정보에 정보 불러오기
+	public CustomerVO select(String custId) {
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      String sql = "SELECT * FROM CUSTOMER WHERE CUSTID = ?";
+	      CustomerVO cvo = null;
+	      try {
+	         conn = DBConnect.getInstance();
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, custId);
+	         rs = pstmt.executeQuery();
+	         while (rs.next()) {
+	            cvo = new CustomerVO();
+
+	            cvo.setCustID(rs.getString("CUSTID"));
+	            cvo.setPwd(rs.getString("PWD"));
+	            cvo.setCname(rs.getString("CNAME"));
+	            cvo.setPhone(rs.getString("PHONE"));
+	         }
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      } finally {
+	         closeAll(null, pstmt, conn);
+	      }
+	      return cvo;
+	   }
+	
 	// 회원가입
 	public int insert(CustomerVO cvo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
 			conn = DBConnect.getInstance();
-			String quary = "INSERT INTO CUSTOMER (CUSTID, PWD, CNAME, PHONE)" 
-						+ " VALUES (?, ?, ?, ?)";
+			String quary = "INSERT INTO CUSTOMER (CUSTID, PWD, CNAME, PHONE, FLAG)" 
+						+ " VALUES (?, ?, ?, ?, 'T')";
 			pstmt = conn.prepareStatement(quary);
 			pstmt.setString(1, cvo.getCustID());
 			pstmt.setString(2, cvo.getPwd());
@@ -111,7 +139,9 @@ public class CustomerDAO {
 	public int delete(String custID) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String SQL = "DELETE FROM CUSTOMER WHERE = ?";
+		String SQL = "UPDATE CUSTOMER "
+					+ "SET FLAG = 'F'"
+					+ "WHERE CUSTID = ?";
 		try {			
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
@@ -126,6 +156,30 @@ public class CustomerDAO {
 	}
 	
 	// 회원 정보 수정 (추가 예정)
+	public int update(CustomerVO cvo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String SQL = "UPDATE CUSTOMER "
+				+ "SET CNAME = ?, "
+				+ "    PHONE = ? "
+				+ "WHERE CUSTID =?";
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, cvo.getCname());
+			pstmt.setString(2, cvo.getPhone());
+			pstmt.setString(3, cvo.getCustID());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		return -1;
+			
+		
+		
+	}
 	
 	
 	// 월 고객별 구매 금액 (이번 달)

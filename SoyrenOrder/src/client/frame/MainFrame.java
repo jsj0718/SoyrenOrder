@@ -20,17 +20,20 @@ import customer.CustomerDAO;
 import product.ProductDAO;
 import product.ProductVO;
 import salgrade.SalgradeDAO;
+import client.frame.CustInfoFrame;
 
 public class MainFrame extends JFrame implements ActionListener {
 	JPanel totalPanel;
 	JPanel infoPanel;
 	JButton logOutBt;
+	JButton infoBt;
 	JTextField gradeF;
 	JTextField totalPriceF;
 	JLabel mentL;
 	JLabel gradeL;
 	JLabel totalPriceL;
 
+	
 	JPanel bestPanel;
 	JLabel bestBeverageL;
 	JLabel bestL1;
@@ -51,6 +54,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	ArrayList<ProductVO> plist;
 	
 	OrderFrame order;
+	CustInfoFrame custInfo;
 	
 	public MainFrame() {
 		
@@ -97,7 +101,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		infoPanel = new JPanel();
 		infoPanel.setLayout(null);
-
+		
+		infoBt = new JButton();
 		logOutBt = new JButton();
 		gradeF = new JTextField();
 		totalPriceF = new JTextField();
@@ -119,6 +124,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		plist = pdao.selectBestProduct();
 		orderBt = new JButton();
 		
+		infoBt.setText("내 정보");
 		logOutBt.setText("로그아웃");
 		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
 		gradeL.setText("등급");
@@ -148,7 +154,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		// info panel
 		infoPanel.setBounds(12, 10, 376, 146);
 		logOutBt.setBounds(279, 0, 97, 23);
-
+		infoBt.setBounds(180, 0, 97, 23);
+		
 		gradeF.setBounds(190, 65, 116, 21);
 		totalPriceF.setBounds(190, 104, 116, 21);
 
@@ -196,6 +203,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		orderBt.setFont(new Font("Lucida Sans Unicode", Font.ITALIC, 20));
 
+		infoPanel.add(infoBt);
 		infoPanel.add(logOutBt);
 		infoPanel.add(gradeF);
 		infoPanel.add(totalPriceF);
@@ -223,6 +231,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void eventList() {
 		logOutBt.addActionListener(this);
 		orderBt.addActionListener(this);
+		infoBt.addActionListener(this);
 		bestBt1.addActionListener(this);
 		bestBt2.addActionListener(this);
 		bestBt3.addActionListener(this);
@@ -230,6 +239,16 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if (infoBt == e.getSource()) {
+
+			cdao.select(id);
+			custInfo = new CustInfoFrame(this, id);
+
+			dispose();
+		}
+		
+		
 		if (logOutBt == e.getSource()) {
 			JOptionPane.showConfirmDialog(null, "로그아웃 되었습니다", "확인", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.YES_NO_CANCEL_OPTION);
