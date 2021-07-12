@@ -18,7 +18,7 @@ public class InfoUpdateFrame extends JFrame implements ActionListener {
 	JTextField idField, nameField, phoneField; 
 	// 아이디,이름,전화번호
 	
-	String id = null;
+	String id;
 	
 	public CustInfoFrame custInfo;
 	public MainFrame main;
@@ -28,7 +28,7 @@ public class InfoUpdateFrame extends JFrame implements ActionListener {
 	
 		this.setTitle("정보 수정");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setBounds(100,100,250,350);
+		this.setBounds(100,100,250,300);
 		this.setLayout(null);
 		this.setVisible(true);
 		
@@ -69,7 +69,7 @@ public class InfoUpdateFrame extends JFrame implements ActionListener {
 		nameField.setBounds(12, 115, 148, 23);
 		phoneField.setBounds(12, 173, 148, 23);
 		
-		updateBt.setBounds(48, 250, 90, 23);
+		updateBt.setBounds(60, 210, 90, 23);
 		
 		infoUpdatePanel.add(infoUpdateL);
 		infoUpdatePanel.add(idL);
@@ -103,17 +103,18 @@ public class InfoUpdateFrame extends JFrame implements ActionListener {
 				
 				cdao.update(cvo);
 //				cmsg.setState(4);
-				cmsg.setCvo(cvo);
-				main = new MainFrame();
+//				cmsg.setCvo(cvo);
+				JOptionPane.showMessageDialog(null, "정보수정이 완료되었습니다.");
+				custInfo = new CustInfoFrame(this, id);
 				dispose();
 			}
 		}
 		
-		public void updateCheck(CustomerMessage cm) {
-			if(cm.getResult() != 0) {
-				JOptionPane.showMessageDialog(null, "수정이 완료되었습니다.");
-				dispose();
-			} 
+//		public void updateCheck(CustomerMessage cm) {
+//			if(cm.getResult() != 0) {
+//				JOptionPane.showMessageDialog(null, "수정이 완료되었습니다.");
+//				dispose();
+//			} 
 
-}
+
 }

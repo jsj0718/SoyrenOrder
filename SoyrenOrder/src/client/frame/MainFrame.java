@@ -54,6 +54,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	OrderFrame order;
 	CustInfoFrame custInfo;
+	InfoUpdateFrame infoUpdate;
+	PwdUpdateFrame pwdUpdate;
 
 	public MainFrame() {
 
@@ -64,6 +66,42 @@ public class MainFrame extends JFrame implements ActionListener {
 		setComponent();
 		this.setVisible(true);
 
+	}
+	
+	public MainFrame(CustInfoFrame custInfo, String id) {
+		this.custInfo = custInfo;
+		this.id = id;
+
+		this.setTitle("Mainâ");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(450, 500, 416, 543);
+		this.setLayout(null); // absoulute
+		setComponent();
+		this.setVisible(true);
+	}
+	
+	public MainFrame(PwdUpdateFrame pwdUpdate, String id, String pwd) {
+		this.pwdUpdate = pwdUpdate;
+		this.id = id;
+
+		this.setTitle("Mainâ");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(450, 500, 416, 543);
+		this.setLayout(null); // absoulute
+		setComponent();
+		this.setVisible(true);
+	}
+	
+	public MainFrame(InfoUpdateFrame infoUpdate, String id) {
+		this.infoUpdate = infoUpdate;
+		this.id = id;
+
+		this.setTitle("Mainâ");
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setBounds(450, 500, 416, 543);
+		this.setLayout(null); // absoulute
+		setComponent();
+		this.setVisible(true);
 	}
 
 	public MainFrame(LoginFrame login, String id) {
