@@ -124,7 +124,11 @@ public class MainFrame extends JFrame implements ActionListener {
 		plist = pdao.selectBestProduct();
 		orderBt = new JButton();
 		
+<<<<<<< HEAD
 		infoBt.setText("내 정보");
+=======
+		
+>>>>>>> refs/remotes/origin/kangjisoo
 		logOutBt.setText("로그아웃");
 		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
 		gradeL.setText("등급");
@@ -266,17 +270,17 @@ public class MainFrame extends JFrame implements ActionListener {
 			
 		}
 		// 베스트 상품 클릭 시 해당 제품 주문창으로 이동
-		else if (bestBt1 == e.getSource() && plist.size() >= 3) {
+		else if (bestBt1 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL1.getText());
 			dispose();
 		}
-		else if (bestBt2 == e.getSource() && plist.size() >= 3) {
+		else if (bestBt2 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL2.getText());
 			dispose();
 		}
-		else if (bestBt3 == e.getSource() && plist.size() >= 3) {
+		else if (bestBt3 == e.getSource()) {
 			order = null;
 			order = new OrderFrame(this, id, bestL3.getText());
 			dispose();

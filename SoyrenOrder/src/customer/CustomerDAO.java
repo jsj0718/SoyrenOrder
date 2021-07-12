@@ -139,9 +139,13 @@ public class CustomerDAO {
 	public int delete(String custID) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+<<<<<<< HEAD
 		String SQL = "UPDATE CUSTOMER "
 					+ "SET FLAG = 'F'"
 					+ "WHERE CUSTID = ?";
+=======
+		String SQL = "DELETE FROM CUSTOMER WHERE CUSTID = ?";
+>>>>>>> refs/remotes/origin/kangjisoo
 		try {			
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
