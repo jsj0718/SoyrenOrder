@@ -30,8 +30,10 @@ import javax.swing.table.DefaultTableModel;
 
 import cart.CartDAO;
 import cart.CartVO;
-import detailorders.DetailOrdersDAO;
 import orders.OrdersDAO;
+import orders.OrdersVO;
+import detailorders.DetailOrdersDAO;
+
 import product.ProductDAO;
 import product.ProductVO;
 import server.frame.ServerAlarmFrame;
@@ -51,7 +53,8 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 	JLabel menuImg;
 	JLabel menuInfoL;
 	JRadioButton hotRadioBt;
-	JRadioButton iceRadioBt;
+	JRadioButton iceRad
+	JLabel totalPriceL;ioBt;
 	JLabel totalPriceL;
 	
 	SpinnerNumberModel spinnerModel;
@@ -62,14 +65,10 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 	
 	ProductDAO pdao;
 	CartDAO cadao = new CartDAO();
-	OrdersDAO odao = new OrdersDAO();
-	DetailOrdersDAO dodao = new DetailOrdersDAO();
 	
 	String id;
 	MainFrame main;
 	String pname;
-	
-	ServerAlarmFrame alarm;
 	
 	public OrderFrame(MainFrame main, String id) {
 		this.main = main;
@@ -108,10 +107,6 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		
 		eventList();
 		
-		this.setVisible(true);
-		
-	}
-
 	private void initialize() {
 		
 		panel = new JPanel();
@@ -361,20 +356,20 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		totalPriceL = new JLabel();
 		totalPriceL.setText("0\uC6D0");
 		totalPriceL.setBounds(82, 390, 96, 21);
-		shopTab.add(totalPriceL);		
+		shopTab.add(totalPriceL);			
 		
 		//주문취소 리스너
 		JButton cancelBt = new JButton("\uC8FC\uBB38\uCDE8\uC18C");
 		cancelBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int result = cadao.deleteCart(id);
-				if (result > 0) {
+				if (cadao.deleteCart(id) > 0) {
+					cadao.deleteCart(id);
 					JOptionPane.showMessageDialog(null, "주문이 취소되었습니다.");
 					shopDTM.setNumRows(0);
 					initCartTable();								
 				} else {
-					JOptionPane.showConfirmDialog(null, "주문 취소를 할 수 없습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showConfirmDialog(null, "메뉴를 선택해주세요.","경고",JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -386,37 +381,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		orderBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int resultOrders = odao.insertOrder(id);	// 주문 테이블에 등록
-				// 주문 테이블에 insert 성공 시
-				if (resultOrders > 0) {
-					int orderID = odao.selectOrderID();	// 주문 번호 가져오기
-					ArrayList<CartVO> calist = cadao.selectCartList(id);	// 카트 정보 가져오기
-					for (CartVO cavo : calist) {
-						int resultDO = dodao.insertDetailOrders(cavo, orderID);
-						
-						// 상세 주문 insert 실패 시 메소드 종료 (입력된 상세 주문 테이블, 주문 테이블 삭제)
-						if (resultDO < 1) {
-							dodao.deleteDetailOrders(orderID);
-							odao.deleteOrder(orderID);
-							JOptionPane.showConfirmDialog(null, "주문 실패", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-							return;
-						}
-					}
-					
-					// 상세 주문 insert 성공 시
-					JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.");
-					
-					// 장바구니 비우기
-					cadao.deleteCart(id);
-					shopDTM.setNumRows(0);
-					initCartTable();
-					
-					alarm(id, orderID);
-				// 주문 테이블에 insert 실패 시
-				} else {
-					JOptionPane.showConfirmDialog(null, "주문 완료를 할 수 없습니다.", "경고", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-				}
-				
+
 			}
 		});
 		orderBt.setBounds(178, 432, 91, 23);
@@ -549,6 +514,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		iceRadioBt.setEnabled(true);
 	}
 	
+	
 	// 테이블에 장바구니 정보 담기
 	public void initCartTable() {
 		ArrayList<CartVO> calist = cadao.selectCart(id);
@@ -578,6 +544,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 	public void eventList() {
 		backSpace.addActionListener(this);
 		addBt.addActionListener(this);
+
 		tabbedPane_1.addMouseListener(this);
 		
 	}
@@ -589,8 +556,11 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		
 		if (tabbedPane_1 == e.getSource()) {	
 			shopDTM.setNumRows(0);
-			initCartTable();			
+			initCartTable();									
 //			shopDTM.setColumnIdentifiers(new String[] {"메뉴명", "옵션", "수량", "가격"});
+
+		}
+	}
 		}
 	}
 
@@ -618,6 +588,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		
 	}
 
+	@Override
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// 뒤로가기
@@ -656,10 +627,11 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 					option = "ICE";
 				}
 				cadao.insertCart(pvo.getProdID(), id, option, count);
+				JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 			}
 
-			JOptionPane.showMessageDialog(null, "장바구니로 이동되었습니다.");
 		}
 
 	}
+	
 }

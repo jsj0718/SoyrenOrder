@@ -15,13 +15,13 @@ import orders.OrdersDAO;
 import orders.OrdersVO;
 import server.frame.ServerMain;
 
-public class ServerHandler extends Thread {
+public class ClientServerHandler extends Thread {
 	Socket socket;
 	
 	public static ObjectInputStream ois;
 	public static ObjectOutputStream oos;
 
-	public ServerHandler(Socket socket) {
+	public ClientServerHandler(Socket socket) {
 		this.socket = socket;
 	}
 

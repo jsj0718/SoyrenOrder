@@ -111,7 +111,7 @@ public class CustomerDAO {
 	public int delete(String custID) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String SQL = "DELETE FROM CUSTOMER WHERE = ?";
+		String SQL = "DELETE FROM CUSTOMER WHERE CUSTID = ?";
 		try {			
 			conn = DBConnect.getInstance();
 			pstmt = conn.prepareStatement(SQL);
