@@ -48,6 +48,7 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 	int orderID;
 
 	public ServerAlarmFrame(OrderFrame order, String id, int orderID) {
+		
 		this.order = order;
 		this.id = id;
 		this.orderID = orderID;
