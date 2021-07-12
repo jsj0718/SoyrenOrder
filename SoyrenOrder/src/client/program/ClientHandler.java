@@ -49,6 +49,11 @@ public class ClientHandler extends Thread {
 						login.join.joinCheck(inCMsg);
 					}else if (inCMsg.getState()==3) { //로그인
 						login.loginResult(inCMsg);
+//					}else if (inCMsg.getState() == 4) {
+//						login.main.custInfo.infoUpdate.updateCheck(inCMsg); // 회원정보수정
+//					} else if (inCMsg.getState() == 5) {
+//						login.main.custInfo.pwdUpdate.PwdUpdateCheck(inCMsg);
+//					}
 					}
 				}
 //				else if(obj instanceof ProductMessage) {

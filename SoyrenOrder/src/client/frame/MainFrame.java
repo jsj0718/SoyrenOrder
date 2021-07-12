@@ -20,10 +20,12 @@ import customer.CustomerDAO;
 import product.ProductDAO;
 import product.ProductVO;
 import salgrade.SalgradeDAO;
+import client.frame.CustInfoFrame;
 
 public class MainFrame extends JFrame implements ActionListener {
 	JPanel totalPanel;
 	JPanel infoPanel;
+	JButton infoBt;
 	JButton logOutBt;
 	JTextField gradeF;
 	JTextField totalPriceF;
@@ -44,16 +46,17 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	LoginFrame login;
 	String id;
-	
+
 	CustomerDAO cdao;
 	SalgradeDAO sdao;
 	ProductDAO pdao;
 	ArrayList<ProductVO> plist;
-	
+
 	OrderFrame order;
-	
+	CustInfoFrame custInfo;
+
 	public MainFrame() {
-		
+
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(450, 500, 416, 543);
@@ -62,11 +65,11 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 
 	}
-	
+
 	public MainFrame(LoginFrame login, String id) {
 		this.login = login;
 		this.id = id;
-		
+
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(450, 500, 416, 543);
@@ -75,11 +78,11 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 
 	}
-	
+
 	public MainFrame(OrderFrame order, String id) {
 		this.order = order;
 		this.id = id;
-		
+
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(450, 500, 416, 543);
@@ -90,14 +93,14 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	public void setComponent() {
-		
-		
+
 		totalPanel = new JPanel();
 		totalPanel.setLayout(null);
 
 		infoPanel = new JPanel();
 		infoPanel.setLayout(null);
 
+		infoBt = new JButton();
 		logOutBt = new JButton();
 		gradeF = new JTextField();
 		totalPriceF = new JTextField();
@@ -111,14 +114,15 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL1 = new JLabel();
 		bestL2 = new JLabel();
 		bestL3 = new JLabel();
-		
+
 		cdao = new CustomerDAO();
 		sdao = new SalgradeDAO();
 		pdao = new ProductDAO();
-		
+
 		plist = pdao.selectBestProduct();
 		orderBt = new JButton();
-		
+
+		infoBt.setText("내 정보");
 		logOutBt.setText("로그아웃");
 		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
 		gradeL.setText("등급");
@@ -126,14 +130,14 @@ public class MainFrame extends JFrame implements ActionListener {
 		totalPriceL.setText("TotalPrice");
 		totalPriceF.setText(cdao.monthCustBuy(id) + "원");
 		bestBeverageL.setText("BEST BERVERAGE");
-		
+
 		if (plist.size() >= 3) {
 			bestBt1 = new JButton(imageSetSize(plist.get(0).getImgPath(), 73, 72));
 			bestBt2 = new JButton(imageSetSize(plist.get(1).getImgPath(), 73, 72));
 			bestBt3 = new JButton(imageSetSize(plist.get(2).getImgPath(), 73, 72));
 			bestL1.setText(plist.get(0).getPname());
 			bestL2.setText(plist.get(1).getPname());
-			bestL3.setText(plist.get(2).getPname());			
+			bestL3.setText(plist.get(2).getPname());
 		} else {
 			bestBt1 = new JButton();
 			bestBt2 = new JButton();
@@ -142,11 +146,12 @@ public class MainFrame extends JFrame implements ActionListener {
 			bestL2.setText("Best2");
 			bestL3.setText("Best3");
 		}
-		
+
 		orderBt.setText("Order Now!");
 
 		// info panel
 		infoPanel.setBounds(12, 10, 376, 146);
+		infoBt.setBounds(180, 0, 97, 23);
 		logOutBt.setBounds(279, 0, 97, 23);
 
 		gradeF.setBounds(190, 65, 116, 21);
@@ -196,6 +201,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		orderBt.setFont(new Font("Lucida Sans Unicode", Font.ITALIC, 20));
 
+		infoPanel.add(infoBt);
 		infoPanel.add(logOutBt);
 		infoPanel.add(gradeF);
 		infoPanel.add(totalPriceF);
@@ -223,6 +229,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void eventList() {
 		logOutBt.addActionListener(this);
 		orderBt.addActionListener(this);
+		infoBt.addActionListener(this);
 		bestBt1.addActionListener(this);
 		bestBt2.addActionListener(this);
 		bestBt3.addActionListener(this);
@@ -230,6 +237,13 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (infoBt == e.getSource()) {
+
+			cdao.select(id);
+			custInfo = new CustInfoFrame(this, id);
+
+			dispose();
+		}
 		if (logOutBt == e.getSource()) {
 			JOptionPane.showConfirmDialog(null, "로그아웃 되었습니다", "확인", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.YES_NO_CANCEL_OPTION);
@@ -238,42 +252,40 @@ public class MainFrame extends JFrame implements ActionListener {
 		}
 		// 주문 버튼 클릭 시 주문창 이동
 		else if (orderBt == e.getSource()) {
-			
+
 			order = null;
-			
+
 			order = new OrderFrame(this, id);
-			
+
 			dispose();
-			
+
 		}
 		// 베스트 상품 클릭 시 해당 제품 주문창으로 이동
 		else if (bestBt1 == e.getSource() && plist.size() >= 3) {
 			order = null;
 			order = new OrderFrame(this, id, bestL1.getText());
 			dispose();
-		}
-		else if (bestBt2 == e.getSource() && plist.size() >= 3) {
+		} else if (bestBt2 == e.getSource() && plist.size() >= 3) {
 			order = null;
 			order = new OrderFrame(this, id, bestL2.getText());
 			dispose();
-		}
-		else if (bestBt3 == e.getSource() && plist.size() >= 3) {
+		} else if (bestBt3 == e.getSource() && plist.size() >= 3) {
 			order = null;
 			order = new OrderFrame(this, id, bestL3.getText());
 			dispose();
 		}
-		
+
 	}
-	
+
 	// 이미지 아이콘 만드는 메소드
 	public ImageIcon getImgIcon(String imgPath) {
 		Image selectedImg = new ImageIcon(imgPath).getImage();
 		Image scaledImg = selectedImg.getScaledInstance(171, 165, Image.SCALE_DEFAULT);
 		ImageIcon scaledImgIcon = new ImageIcon(scaledImg);
-		
+
 		return scaledImgIcon;
 	}
-	
+
 	// 이미지 크기 조절 메소드
 	public ImageIcon imageSetSize(String imgPath, int i, int j) {
 		ImageIcon selectedImg = new ImageIcon("src/" + imgPath);
@@ -282,7 +294,6 @@ public class MainFrame extends JFrame implements ActionListener {
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
 
 	public static void main(String[] args) {
 		new MainFrame();

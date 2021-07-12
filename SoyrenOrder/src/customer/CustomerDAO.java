@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dbconn.DBConnect;
+import customer.CustomerVO;
 
 public class CustomerDAO {
 	public void closeAll(ResultSet rs, PreparedStatement pstmt, Connection conn) {
@@ -84,6 +85,33 @@ public class CustomerDAO {
 		return result;
 	}
 	
+	public CustomerVO select(String custId) {
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      String sql = "SELECT * FROM CUSTOMER WHERE CUSTID = ?";
+	      CustomerVO cvo = null;
+	      try {
+	         conn = DBConnect.getInstance();
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, custId);
+	         rs = pstmt.executeQuery();
+	         while (rs.next()) {
+	            cvo = new CustomerVO();
+
+	            cvo.setCustID(rs.getString("CUSTID"));
+	            cvo.setPwd(rs.getString("PWD"));
+	            cvo.setCname(rs.getString("CNAME"));
+	            cvo.setPhone(rs.getString("PHONE"));
+	         }
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      } finally {
+	         closeAll(null, pstmt, conn);
+	      }
+	      return cvo;
+	   }
+	
 	// 회원가입
 	public int insert(CustomerVO cvo) {
 		Connection conn = null;
@@ -126,6 +154,30 @@ public class CustomerDAO {
 	}
 	
 	// 회원 정보 수정 (추가 예정)
+	public int update(CustomerVO cvo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String SQL = "UPDATE CUSTOMER "
+				+ "SET CNAME = ?, "
+				+ "    PHONE = ? "
+				+ "WHERE CUSTID =?";
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, cvo.getCname());
+			pstmt.setString(2, cvo.getPhone());
+			pstmt.setString(3, cvo.getCustID());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		return -1;
+			
+		
+		
+	}
 	
 	
 	// 월 고객별 구매 금액 (이번 달)
