@@ -8,6 +8,8 @@ public class OrdersVO implements Serializable {
 	private String odate;
 	private String orderFlag;
 	
+	private int oprice;
+	
 	public int getOrderID() {
 		return orderID;
 	}
@@ -31,6 +33,12 @@ public class OrdersVO implements Serializable {
 	}
 	public void setOrderFlag(String orderFlag) {
 		this.orderFlag = orderFlag;
+	}
+	public int getOprice() {
+		return oprice;
+	}
+	public void setOprice(int oprice) {
+		this.oprice = oprice;
 	}
 
 	

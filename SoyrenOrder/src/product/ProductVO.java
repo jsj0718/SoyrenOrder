@@ -9,6 +9,7 @@ public class ProductVO implements Serializable {
 	private String info;
 	private String category;
 	private String imgPath;
+	private String poption;
 	
 	public int getProdID() {
 		return prodID;
@@ -45,6 +46,12 @@ public class ProductVO implements Serializable {
 	}
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
+	}
+	public String getPoption() {
+		return poption;
+	}
+	public void setPoption(String poption) {
+		this.poption = poption;
 	}
 	
 	
