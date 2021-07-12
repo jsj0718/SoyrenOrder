@@ -85,6 +85,7 @@ public class CustomerDAO {
 		return result;
 	}
 	
+	//내정보에 회원정보 불러오기
 	public CustomerVO select(String custId) {
 	      Connection conn = null;
 	      PreparedStatement pstmt = null;
@@ -136,24 +137,26 @@ public class CustomerDAO {
 	}
 	
 	// 회원 탈퇴
-	public int delete(String custID) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String SQL = "DELETE FROM CUSTOMER WHERE CUSTID= ?";
-		try {			
-			conn = DBConnect.getInstance();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, custID);
-			return pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeAll(null, pstmt, conn);
+		public int delete(String custID) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+
+			String SQL = "DELETE FROM CUSTOMER WHERE CUSTID = ?";
+
+			try {			
+				conn = DBConnect.getInstance();
+				pstmt = conn.prepareStatement(SQL);
+				pstmt.setString(1, custID);
+				return pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				closeAll(null, pstmt, conn);
+			}
+			return -1;	// DB 오류
 		}
-		return -1;	// DB 오류
-	}
 	
-	// 회원 정보 수정 (추가 예정)
+	// 회원 정보 수정
 	public int update(CustomerVO cvo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -174,31 +177,34 @@ public class CustomerDAO {
 			closeAll(null, pstmt, conn);
 		}
 		return -1;
-	}
-		
-		public int updatePwd(CustomerVO cvo) {
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			String SQL = "UPDATE CUSTOMER "
-					+ "SET PWD = ? "
-					+ "WHERE CUSTID =?";
-			try {
-				conn = DBConnect.getInstance();
-				pstmt = conn.prepareStatement(SQL);
-				pstmt.setString(1, cvo.getPwd());
-				pstmt.setString(2, cvo.getCustID());
-				return pstmt.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeAll(null, pstmt, conn);
-			}
-			return -1;
 			
 		
 		
 	}
 	
+	//비밀번호 수정
+	public int updatePwd(CustomerVO cvo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String SQL = "UPDATE CUSTOMER "
+				+ "SET PWD = ? "
+				+ "WHERE CUSTID =?";
+		try {
+			conn = DBConnect.getInstance();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, cvo.getPwd());
+			pstmt.setString(2, cvo.getCustID());
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		return -1;
+		
+	
+	
+}
 	
 	// 월 고객별 구매 금액 (이번 달)
 	public int monthCustBuy(String custID) {

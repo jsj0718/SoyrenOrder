@@ -66,7 +66,7 @@ public class ServerMain extends JFrame implements ActionListener, MouseListener 
 		this.setTitle("주문 음료");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(400, 200, 600, 600);
-		this.setLayout(null);
+		getContentPane().setLayout(null);
 		setComponent();
 		
 		initOrdersTable();
@@ -76,14 +76,16 @@ public class ServerMain extends JFrame implements ActionListener, MouseListener 
 
 	public void setComponent() {
 		titleL = new JLabel();
+		titleL.setForeground(new Color(255, 255, 255));
+		titleL.setBounds(124, 44, 300, 60);
 		
 		
 		totalPanel = new JPanel();
+		totalPanel.setBackground(new Color(107, 142, 35));
 		totalPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(176, 196, 222)));
-		totalPanel.setLayout(null);
 		
 		presentTab = new JTabbedPane(JTabbedPane.TOP);
-		presentTab.setBounds(24, 112, 400, 100);
+		presentTab.setBounds(24, 112, 400, 159);
 		
 
 		presentTable = new JTable();
@@ -96,7 +98,7 @@ public class ServerMain extends JFrame implements ActionListener, MouseListener 
 		presentScroll = new JScrollPane(presentTable);
 		
 		totalTab = new JTabbedPane(JTabbedPane.TOP);
-		totalTab.setBounds(24, 250, 500, 300);
+		totalTab.setBounds(24, 301, 500, 249);
 		
 		totalTable = new JTable();
 		totalTable.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, null));
@@ -107,22 +109,25 @@ public class ServerMain extends JFrame implements ActionListener, MouseListener 
 		totalScroll = new JScrollPane(totalTable);
 		
 		settlementBt = new JButton();
+		settlementBt.setBackground(new Color(255, 255, 240));
+		settlementBt.setFont(new Font("굴림", Font.PLAIN, 14));
+		settlementBt.setBounds(490, 44, 73, 40);
 		settlementBt.setText("정산");
+		settlementBt.setBorderPainted(false);
 		
 		completeBt = new JButton();
+		completeBt.setBackground(new Color(255, 255, 240));
+		completeBt.setFont(new Font("굴림", Font.PLAIN, 13));
+		completeBt.setBounds(431, 138, 73, 47);
 		completeBt.setText("완성");
+		completeBt.setBorderPainted(false);
 		
 		titleL.setText("대기 음료");
 		
 //		totalPanel.setBounds(350, 350, 350, 350);
 		presentTable.setBounds(24, 72, 200, 209);
-		settlementBt.setBounds(500, 20, 60, 40);
-		
-		completeBt.setBounds(450, 150, 65, 50);
-		
-		
-		titleL.setBounds(120, 50, 300, 60);
-		titleL.setFont(new Font("HY그래픽M", Font.BOLD, 28));
+		totalPanel.setLayout(null);
+		titleL.setFont(new Font("맑은 고딕", Font.BOLD, 28));
 		titleL.setHorizontalAlignment(JLabel.CENTER);
 		
 		totalPanel.add(titleL);

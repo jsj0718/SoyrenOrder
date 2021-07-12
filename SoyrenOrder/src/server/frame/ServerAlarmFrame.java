@@ -46,6 +46,9 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 	String id;
 	int orderID;
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public ServerAlarmFrame(OrderFrame order, String id, int orderID) {
 		this.order = order;
 		this.id = id;
@@ -54,7 +57,7 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 		this.setTitle("주문이 들어왔습니다.");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(500, 300, 400, 250);
-		this.setLayout(null); // absoulute
+		getContentPane().setLayout(null); // absoulute
 		setComponent();
 		initDetailOrdersTable();
 		this.setVisible(true);
@@ -76,11 +79,12 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 
 	public void setComponent() {
 		alarmPanel = new JPanel();
+		alarmPanel.setBackground(new Color(240, 255, 240));
 		alarmPanel.setBounds(0, 0, 500, 500);
 		alarmPanel.setLayout(null);
 
 		custIdL = new JLabel("\uACE0\uAC1D\uBA85 : " + id);
-		custIdL.setBounds(118, 35, 100, 15);
+		custIdL.setBounds(130, 24, 126, 15);
 		alarmPanel.add(custIdL);
 
 		custIdVal = new JLabel();
@@ -99,18 +103,23 @@ public class ServerAlarmFrame extends JFrame implements ActionListener {
 
 		String[] confirmCol = { "음료", "옵션", "수량" };
 		confirmDTM = new DefaultTableModel(confirmCol, 0);
-		confirmPanel.setLayout(new BorderLayout(0, 0));
+		confirmPanel.setLayout(null);
 		confirmTable_1 = new JTable(confirmDTM);
 		confirmTable_1.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.PINK, null, null, null));
 		confirmScroll = new JScrollPane(confirmTable_1);
+		confirmScroll.setBounds(0, 0, 311, 92);
 		confirmPanel.add(confirmScroll);
 
 		yesBt = new JButton("\uC2B9\uC778");
-		yesBt.setBounds(66, 156, 97, 23);
+		yesBt.setBackground(new Color(255, 255, 255));
+		yesBt.setBounds(68, 169, 97, 23);
+		yesBt.setBorderPainted(false);
 		alarmPanel.add(yesBt);
 
 		noBt = new JButton("\uAC70\uC808");
-		noBt.setBounds(233, 156, 97, 23);
+		noBt.setBackground(new Color(255, 255, 255));
+		noBt.setBounds(235, 169, 97, 23);
+		noBt.setBorderPainted(false);
 		alarmPanel.add(noBt);
 
 		alarmPanel.add(custIdL);

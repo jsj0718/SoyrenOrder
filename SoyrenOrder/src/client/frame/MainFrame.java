@@ -61,8 +61,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(450, 500, 416, 543);
-		this.setLayout(null); // absoulute
+		this.setBounds(450, 100, 416, 543);
+		getContentPane().setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
 
@@ -103,6 +103,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		setComponent();
 		this.setVisible(true);
 	}
+	
+	
 
 	public MainFrame(LoginFrame login, String id) {
 		this.login = login;
@@ -110,8 +112,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(450, 500, 416, 543);
-		this.setLayout(null); // absoulute
+		this.setBounds(450, 100, 416, 543);
+		getContentPane().setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
 
@@ -123,8 +125,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		this.setTitle("Main창");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setBounds(450, 500, 416, 543);
-		this.setLayout(null); // absoulute
+		this.setBounds(450, 100, 416, 543);
+		getContentPane().setLayout(null); // absoulute
 		setComponent();
 		this.setVisible(true);
 
@@ -133,18 +135,25 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void setComponent() {
 
 		totalPanel = new JPanel();
+		totalPanel.setBackground(new Color(85, 107, 47));
+		totalPanel.setForeground(new Color(85, 107, 47));
 		totalPanel.setLayout(null);
 
 		infoPanel = new JPanel();
-		infoPanel.setLayout(null);
-
-		infoBt = new JButton();
-		logOutBt = new JButton();
+		infoPanel.setSize(376, 146);
+		infoPanel.setLocation(12, 10);
 		gradeF = new JTextField();
+		gradeF.setEditable(false);
+		gradeF.setBounds(118, 87, 116, 21);
 		totalPriceF = new JTextField();
+		totalPriceF.setEditable(false);
+		totalPriceF.setBounds(118, 126, 116, 21);
 		mentL = new JLabel();
+		mentL.setBounds(34, 24, 352, 38);
 		gradeL = new JLabel();
+		gradeL.setBounds(27, 90, 57, 15);
 		totalPriceL = new JLabel();
+		totalPriceL.setBounds(27, 127, 69, 18);
 
 		bestPanel = new JPanel();
 		bestPanel.setLayout(null);
@@ -159,13 +168,12 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		plist = pdao.selectBestProduct();
 		orderBt = new JButton();
-
-		infoBt.setText("내 정보");
-		logOutBt.setText("로그아웃");
-		mentL.setText(id + "님, HOPE to spend your nice time with Soyren");
+		orderBt.setBackground(new Color(255, 255, 240));
+		orderBt.setBorderPainted(false);
+		mentL.setText(id+", Hope to spend your nice time with Soyren");
 		gradeL.setText("등급");
 		gradeF.setText(sdao.getGrade(id));
-		totalPriceL.setText("TotalPrice");
+		totalPriceL.setText("\uCD1D \uAD6C\uB9E4 \uAE08\uC561");
 		totalPriceF.setText(cdao.monthCustBuy(id) + "원");
 		bestBeverageL.setText("BEST BERVERAGE");
 
@@ -186,22 +194,14 @@ public class MainFrame extends JFrame implements ActionListener {
 		}
 
 		orderBt.setText("Order Now!");
+		
 
 		// info panel
-		infoPanel.setBounds(12, 10, 376, 146);
-		infoBt.setBounds(180, 0, 97, 23);
-		logOutBt.setBounds(279, 0, 97, 23);
-
-		gradeF.setBounds(190, 65, 116, 21);
-		totalPriceF.setBounds(190, 104, 116, 21);
-
-		mentL.setBounds(123, 35, 253, 20);
-		gradeL.setBounds(121, 68, 57, 15);
-		totalPriceL.setBounds(121, 105, 69, 18);
+		infoPanel.setBounds(12, 10, 376, 165);
 
 		// best panel
-		bestPanel.setBounds(12, 155, 376, 165);
-		bestBeverageL.setBounds(12, 10, 105, 41);
+		bestPanel.setBounds(12, 172, 376, 165);
+		bestBeverageL.setBounds(12, 10, 127, 41);
 		bestBt1.setBounds(22, 48, 73, 72);
 		bestBt2.setBounds(151, 48, 73, 72);
 		bestBt3.setBounds(267, 48, 73, 72);
@@ -209,7 +209,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL2.setBounds(161, 130, 63, 25);
 		bestL3.setBounds(277, 130, 63, 25);
 
-		orderBt.setBounds(187, 341, 185, 141);
+		orderBt.setBounds(107, 347, 185, 71);
 
 		gradeF.setColumns(10);
 		totalPriceF.setColumns(10);
@@ -219,17 +219,15 @@ public class MainFrame extends JFrame implements ActionListener {
 
 		infoPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 
-		infoPanel.setBackground(new Color(224, 255, 255));
-
-		logOutBt.setBackground(new Color(245, 245, 245));
+		infoPanel.setBackground(new Color(240, 255, 240));
 
 		mentL.setForeground(new Color(0, 0, 0));
-		mentL.setFont(new Font("Garamond", Font.BOLD, 12));
+		mentL.setFont(new Font("Garamond", Font.BOLD, 16));
 
 		bestPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		bestPanel.setBackground(new Color(135, 206, 235));
+		bestPanel.setBackground(new Color(240, 255, 255));
 
-		bestBeverageL.setFont(new Font("Sitka Banner", Font.PLAIN, 14));
+		bestBeverageL.setFont(new Font("Sitka Banner", Font.BOLD, 14));
 
 		bestL1.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 12));
 
@@ -238,9 +236,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		bestL3.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 12));
 
 		orderBt.setFont(new Font("Lucida Sans Unicode", Font.ITALIC, 20));
-
-		infoPanel.add(infoBt);
-		infoPanel.add(logOutBt);
+		infoPanel.setLayout(null);
 		infoPanel.add(gradeF);
 		infoPanel.add(totalPriceF);
 		infoPanel.add(mentL);
@@ -260,6 +256,21 @@ public class MainFrame extends JFrame implements ActionListener {
 		totalPanel.add(orderBt);
 
 		this.setContentPane(totalPanel);
+		
+				infoBt = new JButton();
+				infoBt.setBackground(new Color(255, 255, 240));
+				infoBt.setBounds(30, 441, 97, 23);
+				totalPanel.add(infoBt);
+				
+						infoBt.setText("내 정보");
+						infoBt.setBorderPainted(false);
+						logOutBt = new JButton();
+						logOutBt.setBounds(293, 441, 97, 23);
+						logOutBt.setBorderPainted(false);
+						totalPanel.add(logOutBt);
+						logOutBt.setText("로그아웃");
+						
+								logOutBt.setBackground(new Color(255, 255, 240));
 
 		eventList();
 	}

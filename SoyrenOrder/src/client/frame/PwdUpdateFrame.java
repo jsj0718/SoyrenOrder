@@ -8,6 +8,8 @@ import client.program.ClientHandler;
 import customer.CustomerDAO;
 import customer.CustomerVO;
 import message.CustomerMessage;
+import java.awt.Font;
+import java.awt.Color;
 
 public class PwdUpdateFrame extends JFrame implements ActionListener {
 	
@@ -30,8 +32,8 @@ public class PwdUpdateFrame extends JFrame implements ActionListener {
 		
 		this.setTitle("비밀번호 변경");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setBounds(100, 100, 300, 200);
-		this.setLayout(null); //absoulute
+		this.setBounds(100, 100, 300, 218);
+		getContentPane().setLayout(null); //absoulute
 		this.setVisible(true);
 		setComponent();
 		
@@ -40,16 +42,24 @@ public class PwdUpdateFrame extends JFrame implements ActionListener {
 	public void setComponent() {
 		
 		pwdPanel = new JPanel();
-		pwdPanel.setLayout(null);
+		pwdPanel.setBackground(new Color(238, 232, 170));
 		
 		pwdUpdateL = new JLabel();
+		pwdUpdateL.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		pwdUpdateL.setBounds(68, 10, 151, 23);
 		pwdL = new JLabel();
+		pwdL.setBounds(68, 89, 100, 30);
 		idL = new JLabel();
+		idL.setBounds(68, 32, 100, 30);
 		
 		idField = new JTextField(id);
+		idField.setBounds(68, 61, 151, 21);
 		pwdField = new JTextField();
+		pwdField.setBounds(68, 117, 151, 21);
 		
 		commitBt = new JButton();
+		commitBt.setBackground(new Color(255, 255, 240));
+		commitBt.setBounds(90, 148, 97, 23);
 		
 		pwdUpdateL.setText("비밀번호 변경");
 		pwdL.setText("비밀번호");
@@ -60,17 +70,9 @@ public class PwdUpdateFrame extends JFrame implements ActionListener {
 		pwdUpdateL.setHorizontalAlignment(JLabel.CENTER);
 		
 		pwdPanel.setBounds(0, 0, 300, 230);
-		pwdUpdateL.setBounds(90, 10, 97, 23);
-		
-		idL.setBounds(20, 25, 100, 30);
-		idField.setBounds(12, 46, 151, 21);
-		
-		pwdL.setBounds(20, 65, 100, 30);
-		pwdField.setBounds(12, 90, 151, 21);
-		
-		commitBt.setBounds(12, 128, 97, 23);
 		
 		commitBt.setHorizontalAlignment(JButton.CENTER);
+		pwdPanel.setLayout(null);
 		
 		pwdPanel.add(pwdUpdateL);
 		pwdPanel.add(idL);
@@ -105,16 +107,9 @@ public class PwdUpdateFrame extends JFrame implements ActionListener {
 //				cmsg.setCvo(cvo);
 				pwd = pwdField.getText();
 				JOptionPane.showMessageDialog(null, "비밀번호 수정이 완료되었습니다.");
+				
 				main = new MainFrame(this, id, pwd);
 				dispose();
-				
 			}
 		}
-//		public void PwdUpdateCheck(CustomerMessage cm) {
-//			if(cm.getResult() != 0) {
-//				JOptionPane.showMessageDialog(null, "수정이 완료되었습니다.");
-//				dispose();
-//			}
-	
-//}
 }

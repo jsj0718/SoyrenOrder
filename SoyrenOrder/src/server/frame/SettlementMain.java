@@ -56,7 +56,7 @@ public class SettlementMain extends JFrame implements ActionListener, MouseListe
 		this.setTitle("정산");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBounds(100, 100, 550, 531);
-		this.setLayout(new FlowLayout());
+		getContentPane().setLayout(new FlowLayout());
 		setComponent();
 		initSales("날짜");
 		this.setVisible(true);
@@ -68,7 +68,11 @@ public class SettlementMain extends JFrame implements ActionListener, MouseListe
 		totalPanel = new JPanel();
 		totalPanel.setLayout(null);
 		closeBt = new JButton("\uB9C8\uAC10");
-		backBt = new JButton("\uB4A4\uB85C\uAC00\uAE30");
+		closeBt.setBackground(new Color(255, 255, 255));
+		closeBt.setBorderPainted(false);
+		backBt = new JButton("\u25C0");
+		backBt.setBackground(new Color(255, 255, 255));
+		backBt.setBorderPainted(false);
 		tab = new JTabbedPane(JTabbedPane.TOP);
 		
 		String[] comboSel = {"날짜", "고객별", "제품별"};
@@ -80,7 +84,7 @@ public class SettlementMain extends JFrame implements ActionListener, MouseListe
 		custPanel.setLayout(null);
 
 		closeBt.setBounds(437, 10, 97, 23);
-		backBt.setBounds(328, 10, 97, 23);
+		backBt.setBounds(25, 10, 97, 23);
 		tab.setBounds(25, 43, 482, 417);
 		dateCombo.setBounds(170, 40, 173, 21);
 		

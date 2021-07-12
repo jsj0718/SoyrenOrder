@@ -78,7 +78,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		this.setTitle("주문창");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 857, 654);
-		this.setLayout(null); // absoulute
+		getContentPane().setLayout(null); // absoulute
 		initialize();		
 		
 		eventList();
@@ -86,6 +86,9 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		
 	}
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public OrderFrame(MainFrame main, String id, String pname) {
 		this.main = main;
 		this.id = id;
@@ -97,7 +100,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		this.setTitle("주문창");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 857, 654);
-		this.setLayout(null); // absoulute
+		getContentPane().setLayout(null); // absoulute
 		initialize();		
 		
 		if (pvo.getPoption().equals("T")) {
@@ -125,8 +128,11 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		panel.add(tabbedPane);
 		
 		// 뒤로가기 버튼
-		backSpace = new JButton("뒤로가기");
-		backSpace.setBounds(700, 30, 100, 50);
+		backSpace = new JButton("\u25C0");
+		backSpace.setFont(new Font("굴림", Font.BOLD, 25));
+		backSpace.setBorderPainted(false);
+		backSpace.setBackground(new Color(107, 142, 35));
+		backSpace.setBounds(36, 27, 100, 50);
 		panel.add(backSpace);
 		
 		// 커피 탭
@@ -307,7 +313,9 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		infoTab.add(menuInfoL);
 		
 		addBt = new JButton("\uB2F4\uAE30");
+		addBt.setBackground(new Color(255, 255, 240));
 		addBt.setBounds(159, 421, 91, 23);
+		addBt.setBorderPainted(false);
 		infoTab.add(addBt);
 		
 		//라디오버튼
@@ -423,7 +431,7 @@ public class OrderFrame extends JFrame implements ActionListener, MouseListener 
 		shopTab.add(orderBt);
 		
 		JLabel orderL = new JLabel("\uC8FC \uBB38 \uD558 \uAE30");
-		orderL.setBounds(332, 37, 148, 40);
+		orderL.setBounds(347, 27, 148, 40);
 		orderL.setFont(new Font("맑은 고딕", Font.BOLD, 27));
 		panel.add(orderL);
 		
