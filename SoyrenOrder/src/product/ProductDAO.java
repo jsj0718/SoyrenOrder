@@ -34,11 +34,11 @@ public class ProductDAO {
 		String SQL = "SELECT * "
 				+ "FROM PRODUCT "
 				+ "WHERE PRODID IN (SELECT * "
-				+ "                 FROM (SELECT P.PRODID"
-				+ "                       FROM ORDERS O, PRODUCT P"
-				+ "                       WHERE O.PRODID = P.PRODID"
-				+ "                       GROUP BY P.PRODID"
-				+ "                       ORDER BY SUM(O.COUNT) DESC)"
+				+ "                 FROM (SELECT PRODID"
+				+ "                       FROM DETAILORDERS"
+				+ "                       GROUP BY PRODID"
+				+ "                       ORDER BY SUM(COUNT) DESC"
+				+ "                       )"
 				+ "                 WHERE ROWNUM <= 3)";
 		ArrayList<ProductVO> plist = new ArrayList<>();
 		
@@ -55,7 +55,7 @@ public class ProductDAO {
 				pvo.setInfo(rs.getString("INFO"));
 				pvo.setCategory(rs.getString("CATEGORY"));
 				pvo.setImgPath(rs.getString("IMGPATH"));
-				
+				pvo.setPoption(rs.getString("POPTION"));
 				plist.add(pvo);
 			}
 		} catch (SQLException e) {
@@ -90,6 +90,7 @@ public class ProductDAO {
 				pvo.setInfo(rs.getString("INFO"));
 				pvo.setCategory(rs.getString("CATEGORY"));
 				pvo.setImgPath(rs.getString("IMGPATH"));
+				pvo.setPoption(rs.getString("POPTION"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
