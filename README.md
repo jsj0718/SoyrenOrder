@@ -35,7 +35,7 @@
 
 ## 3. Project DB ERD
 
-![image-20211008101951778](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008101951778.png)
+![image-20211008101951778](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008101951778.png)
 
 ------
 
@@ -47,25 +47,25 @@
 
 * 정보 수정
 
-![image-20211008102047585](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008102047585.png)
+![image-20211008102047585](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008102047585.png)
 
 
 
 * 주문 접수
 
-![image-20211008102122360](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008102122360.png)
+![image-20211008102122360](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008102122360.png)
 
 
 
 * Best 메뉴 확인
 
-![image-20211008102136453](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008102136453.png)
+![image-20211008102136453](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008102136453.png)
 
 
 
 * 등급, 총 구매내역 확인
 
-![image-20211008102146890](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008102146890.png)
+![image-20211008102146890](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008102146890.png)
 
 
 
@@ -75,27 +75,27 @@
 
 * Client
 
-![image-20211008104214878](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008104214878.png)
+![image-20211008104214878](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104214878.png)
 
-![image-20211008102337905](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008102337905.png)
+![image-20211008102337905](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008102337905.png)
 
-![image-20211008104228989](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008104228989.png)
+![image-20211008104228989](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104228989.png)
 
 
 
 * Server
 
-![image-20211008104247477](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008104247477.png)
+![image-20211008104247477](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104247477.png)
 
-![image-20211008104305274](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008104305274.png)
+![image-20211008104305274](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104305274.png)
 
-![image-20211008104317537](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008104317537.png)
+![image-20211008104317537](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104317537.png)
 
 
 
 ## 6. 팀원 역할 분담
 
-![image-20211008104358353](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008104358353.png)
+![image-20211008104358353](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104358353.png)
 
 
 
