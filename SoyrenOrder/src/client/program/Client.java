@@ -10,7 +10,7 @@ import client.frame.LoginFrame;
 public class Client {
 	public static void main(String[] args) {
 		try {
-			Socket socket = new Socket("192.168.0.219",7777);
+			Socket socket = new Socket("localhost",7777);
 			System.out.println("서버연결 완료");
 			
 			LoginFrame login = new LoginFrame();

@@ -31,10 +31,15 @@ public class ProductDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String SQL = "SELECT * " + "FROM PRODUCT " + "WHERE PRODID IN (SELECT * "
-				+ "                 FROM (SELECT PRODID" + "                       FROM DETAILORDERS"
-				+ "                       GROUP BY PRODID" + "                       ORDER BY SUM(COUNT) DESC"
-				+ "                       )" + "                 WHERE ROWNUM <= 3)";
+		String SQL = "SELECT * " 
+				+ "FROM PRODUCT " 
+				+ "WHERE PRODID IN (SELECT * "
+				+ "                 FROM (SELECT PRODID" 
+				+ "                       FROM DETAILORDERS"
+				+ "                       GROUP BY PRODID" 
+				+ "                       ORDER BY SUM(COUNT) DESC"
+				+ "                       )" 
+				+ "                 WHERE ROWNUM <= 3)";
 		ArrayList<ProductVO> plist = new ArrayList<>();
 
 		try {
