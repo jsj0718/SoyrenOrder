@@ -4,23 +4,17 @@
 
 
 
-------
-
 ## 0. Project 소개
 
 카페를 이용하는 사람들을 위한 간단한 비대면 커피 스마트 오더 시스템
 
 
 
-------
-
 ## 1. Project 기능
 
 ![image-20211008104417292](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104417292.png)
 
 
-
-------
 
 ## 2. Project 개발 환경
 
@@ -31,13 +25,9 @@
 
 
 
-------
-
 ## 3. Project DB ERD
 
 ![image-20211008101951778](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008101951778.png)
-
-------
 
 
 
