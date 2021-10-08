@@ -16,7 +16,7 @@
 
 ## 1. Project 기능
 
-![image-20211008104417292](https://github.com/jsj0718/SoyrenOrder/blob/master/README.assets/image-20211008104417292.png)
+![image-20211008104417292](https://github.com/jsj0718/SoyrenOrder/blob/main/README.assets/image-20211008104417292.png)
 
 
 
